@@ -1,28 +1,42 @@
 <template>
     <div class="product-catalogry">
         <div class="header">
+            <div class="header__back">
+                <router-link :to="{ name: 'HomePage' }" title="Trang chủ">
+                    <i class="fa-solid fa-arrow-left"></i>
+                </router-link>
+            </div>
             <h4>{{ category.name }}</h4>
         </div>
         <div class="product row sm-gutter">
-            <div class="col-2 product__item" v-for="(item) in productsByCategoryData" :key="item.id">
-                <router-link :to="{ name: 'DetailProduct', params: { id: item.id } }" :title="item?.title"
-                    class="product-item">
+            <div
+                class="col-2 product__item"
+                v-for="item in productsByCategoryData"
+                :key="item.id"
+            >
+                <router-link
+                    :to="{ name: 'DetailProduct', params: { id: item.id } }"
+                    :title="item?.title"
+                    class="product-item"
+                >
                     <ProductTag :item="item"></ProductTag>
                 </router-link>
             </div>
         </div>
         <div class="link-more">
-            <b-button @click="handleLoadMore" class="btn-more">Xem thêm</b-button>
+            <b-button @click="handleLoadMore" class="btn-more"
+                >Xem thêm</b-button
+            >
         </div>
     </div>
 </template>
 
 <script setup>
-import { useCategoryStore } from '@/stores/category';
-import ProductTag from '../product/ProductTag.vue';
-import { useProductStore } from '@/stores/product';
-import { nextTick, onMounted, ref } from 'vue';
-import { useRoute } from 'vue-router';
+import { useCategoryStore } from "@/stores/category";
+import ProductTag from "../product/ProductTag.vue";
+import { useProductStore } from "@/stores/product";
+import { nextTick, onMounted, ref } from "vue";
+import { useRoute } from "vue-router";
 
 const productStore = useProductStore();
 const categoryStore = useCategoryStore();
@@ -40,23 +54,29 @@ nextTick(async () => {
     totalPage.value = productStore.productsByCategory.pagination.lastPage;
     category.value = categoryStore.category;
     productsByCategoryData.value = productStore.getProductsByCategory;
-})
+});
 
-onMounted(() => {
-
-})
+onMounted(() => {});
 
 // -------------------- Methods ---------------------------
 const fetchGetAllByCategory = async () => {
-    await productStore.getAllByCategory(categoryId.value, page.value, perPage.value);
-}
+    await productStore.getAllByCategory(
+        categoryId.value,
+        page.value,
+        perPage.value
+    );
+};
 
 const handleLoadMore = async () => {
     if (page.value >= totalPage.value) return;
     page.value += 1;
-    await productStore.getAllByCategory(categoryId.value, page.value, perPage.value);
+    await productStore.getAllByCategory(
+        categoryId.value,
+        page.value,
+        perPage.value
+    );
     productsByCategoryData.value.push(...productStore.getProductsByCategory);
-}
+};
 </script>
 
 <style scoped>
@@ -70,16 +90,30 @@ const handleLoadMore = async () => {
 
 .header {
     display: flex;
-    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
     padding-top: 10px;
 }
 
-.header>h4 {
-    font-size: 1.8rem;
-    font-weight: 500;
+.header > .header__back {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 35px;
+    height: 35px;
+    border-radius: var(--border-radius);
+    background-color: var(--bg-main);
+    cursor: pointer;
 }
 
-.header>a>i {
+.header > h4 {
+    font-size: 1.8rem;
+    font-weight: 500;
+    margin: 0;
+    padding: 0;
+}
+
+.header > a > i {
     padding-left: 10px;
 }
 

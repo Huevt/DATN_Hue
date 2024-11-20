@@ -5,8 +5,14 @@
         </div>
         <b-carousel :autoplay="4000" :navigator="false" :pagination="false">
             <V-Slide v-for="slide in galleryList" :key="slide">
-                <RouterLink class="carousel__item" :to="{ name: 'DetailProduct', params: { id: slide?.product?.id } }">
-                    <img :src="slide?.image" alt="">
+                <RouterLink
+                    class="carousel__item"
+                    :to="{
+                        name: 'DetailProduct',
+                        params: { id: slide?.product?.id },
+                    }"
+                >
+                    <img :src="slide?.image" alt="" />
                 </RouterLink>
             </V-Slide>
         </b-carousel>
@@ -14,10 +20,9 @@
 </template>
 
 <script setup>
-import { useGalleryStore } from '@/stores/gallery';
-import { storeToRefs } from 'pinia';
-import { nextTick } from 'vue';
-
+import { useGalleryStore } from "@/stores/gallery";
+import { storeToRefs } from "pinia";
+import { nextTick } from "vue";
 
 // ------------------------- Khai báo biến ---------------------------
 const galleryStore = useGalleryStore();
@@ -26,13 +31,9 @@ const { galleryList, isLoading } = storeToRefs(galleryStore);
 // ------------------------- Lifecycle --------------------------------
 nextTick(async () => {
     await galleryStore.fetchGetAll();
-    console.log(galleryList.value);
-})
+});
 
 // ------------------------- Hàm xử lý -------------------------------
-
-
-
 </script>
 
 <style scoped>
