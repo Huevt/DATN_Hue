@@ -1,15 +1,18 @@
 package com.project.tmartweb.application.services.email;
 
-import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.context.Context;
 
 import java.nio.charset.StandardCharsets;
+import java.util.Map;
 
 @Service
 @Log4j2
@@ -19,8 +22,10 @@ public class EmailService implements IEmailService {
     @Value("${mail.username}")
     private String username;
 
+    private final TemplateEngine templateEngine;
+
     @Override
-    public void sendEmail(String to, String subject, String content) throws MessagingException {
+    public void sendEmail(String to, String subject, String content) {
         try {
             MimeMessage message = javaMailSender.createMimeMessage();
             MimeMessageHelper messageHelper = new MimeMessageHelper(message, StandardCharsets.UTF_8.name());
@@ -35,17 +40,14 @@ public class EmailService implements IEmailService {
     }
 
     @Override
-    public void sendGreeting(String subject, String content, String email, String name, Boolean isHtmlFormat) throws MessagingException {
-        if (isHtmlFormat == null) {
-            isHtmlFormat = false;
-        }
+    @Async
+    public void sendTemplateMail(String to, String subject, String templateName,
+                                 Map<String, Object> variables) {
+        Context context = new Context();
+        context.setVariables(variables);
 
-        MimeMessage mimeMessage = javaMailSender.createMimeMessage();
-        MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, "utf-8");
-        helper.setSubject(subject);
-        helper.setFrom(username);
-        helper.setText(content, isHtmlFormat);
-        helper.setTo(email);
-        javaMailSender.send(mimeMessage);
+        String content = templateEngine.process(templateName, context);
+
+        sendEmail(to, subject, content);
     }
 }

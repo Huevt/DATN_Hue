@@ -74,7 +74,10 @@ import { nextTick, ref, watch, defineProps } from 'vue';
 import { useRoute } from 'vue-router';
 
 const props = defineProps({
-    avgStar: Number
+    avgStar: {
+        type: [Number, String],
+        default: 0
+    }
 })
 
 const feedbackStore = useFeedbackStore();

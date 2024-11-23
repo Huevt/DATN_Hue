@@ -1,10 +1,7 @@
 package com.project.tmartweb.application.services.order;
 
-import com.project.tmartweb.application.repositories.CouponRepository;
-import com.project.tmartweb.application.repositories.NotificationRepository;
-import com.project.tmartweb.application.repositories.OrderDetailRepository;
-import com.project.tmartweb.application.repositories.OrderRepository;
-import com.project.tmartweb.application.repositories.ProductRepository;
+import com.project.tmartweb.application.constant.MailTemplate;
+import com.project.tmartweb.application.repositories.*;
 import com.project.tmartweb.application.responses.MailOrder;
 import com.project.tmartweb.application.responses.Statistical;
 import com.project.tmartweb.application.responses.VNPayResponse;
@@ -19,13 +16,7 @@ import com.project.tmartweb.config.exceptions.NotFoundException;
 import com.project.tmartweb.config.helpers.Calculator;
 import com.project.tmartweb.domain.dtos.CartDTO;
 import com.project.tmartweb.domain.dtos.OrderDTO;
-import com.project.tmartweb.domain.entities.Cart;
-import com.project.tmartweb.domain.entities.Coupon;
-import com.project.tmartweb.domain.entities.Notification;
-import com.project.tmartweb.domain.entities.Order;
-import com.project.tmartweb.domain.entities.OrderDetail;
-import com.project.tmartweb.domain.entities.Product;
-import com.project.tmartweb.domain.entities.User;
+import com.project.tmartweb.domain.entities.*;
 import com.project.tmartweb.domain.enums.OrderStatus;
 import com.project.tmartweb.domain.paginate.BasePagination;
 import com.project.tmartweb.domain.paginate.PaginationDTO;
@@ -38,11 +29,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Date;
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -201,10 +188,14 @@ public class OrderService implements IOrderService {
     @Override
     @Transactional
     public VNPayResponse createOrder(OrderDTO orderDTO, HttpServletRequest request) {
-        Order order = insert(orderDTO);
+        Order order = this.insert(orderDTO);
         String urlPayment = "";
         try {
-            emailService.sendEmail(order.getUser().getEmail(), "Đơn hàng", MailOrder.orderSuccess());
+            String mailTo = order.getUser().getEmail();
+            String subject = "Tạo đơn hàng hàng thành công";
+            Map<String, Object> variables = new HashMap<>();
+            variables.put("name", order.getUser().getFullName());
+            emailService.sendTemplateMail(mailTo, subject, MailTemplate.ORDER, variables);
             if (order.getPaymentMethod().equals("VNPAY")) {
                 urlPayment = vnpayService.createOrder((int) order.getTotalMoney(), String.valueOf(order.getId()), request);
                 order.setStatus(OrderStatus.UNPAID);
