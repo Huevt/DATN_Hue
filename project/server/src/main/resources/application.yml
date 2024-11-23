@@ -39,3 +39,5 @@ mail:
   port: 587
   username: ${MAIL_USERNAME}
   password: ${MAIL_PASSWORD}
+link:
+  order-details: ${URL_FRONTEND}/order/detail/

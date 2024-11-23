@@ -52,34 +52,12 @@
             <p>
                 Xin chào <span th:text="${CUSTOMER_NAME}"></span>,
                 <br>
-                Đơn hàng của bạn đã được tạo thành công ngày
-                <b th:text="${ORDER_DATE}"></b>
+                Đơn hàng của bạn đã được giao thành công thành công ngày
+                <b th:text="${SHIPPED_DATE}"></b>
             </p>
         </div>
         <div class="line-break"></div>
         <div>
-            <div class="customer--info">
-                <h4 style="padding: 5px 0">Thông tin người đặt</h4>
-                <table>
-                    <tr>
-                        <th>Họ tên người nhận:</th>
-                        <td th:text="${CUSTOMER_RECEIVE_NAME}"></td>
-                    </tr>
-                    <tr>
-                        <th>Email:</th>
-                        <td th:text="${CUSTOMER_EMAIL}"></td>
-                    </tr>
-                    <tr>
-                        <th>Số điện thoại người nhận:</th>
-                        <td th:text="${CUSTOMER_PHONE}"></td>
-                    </tr>
-                    <tr>
-                        <th>Địa chỉ nhận hàng:</th>
-                        <td th:text="${CUSTOMER_ADDRESS}"></td>
-                    </tr>
-                </table>
-            </div>
-            <div class="line-break"></div>
             <div>
                 <h4 style="padding: 5px 0">Thông tin đơn hàng</h4>
                 <div>

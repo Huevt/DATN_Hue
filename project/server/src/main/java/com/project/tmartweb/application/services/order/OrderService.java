@@ -2,7 +2,6 @@ package com.project.tmartweb.application.services.order;
 
 import com.project.tmartweb.application.constant.MailTemplate;
 import com.project.tmartweb.application.repositories.*;
-import com.project.tmartweb.application.responses.MailOrder;
 import com.project.tmartweb.application.responses.Statistical;
 import com.project.tmartweb.application.responses.VNPayResponse;
 import com.project.tmartweb.application.services.cart.CartService;
@@ -23,12 +22,19 @@ import com.project.tmartweb.domain.paginate.PaginationDTO;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.ObjectUtils;
 
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.text.DecimalFormat;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Service
@@ -46,6 +52,9 @@ public class OrderService implements IOrderService {
     private final NotificationRepository notificationRepository;
     private final VNPayService vnpayService;
     private final IEmailService emailService;
+
+    @Value("${link.order-details}")
+    private String linkOrderDetails;
 
     @Override
     @Transactional
@@ -116,7 +125,7 @@ public class OrderService implements IOrderService {
                 notification.setTitle("Đơn hàng đã giao thành công.");
                 notification.setContent("Đơn hàng của bạn đã được giao thành công. " +
                         " Hãy đánh trải nghiệm, đánh giá sản phẩm và nếu có lỗi gì hãy liên hệ với chúng tôi ngay nhé.");
-                emailService.sendEmail(order.getUser().getEmail(), "Đơn hàng", MailOrder.orderShipped());
+                this.sendMailShippedOrder(order);
             }
             if (orderDTO.getStatus() == OrderStatus.CANCELLED) {
                 notification.setTitle("Đơn hàng đã hủy thành công.");
@@ -191,11 +200,7 @@ public class OrderService implements IOrderService {
         Order order = this.insert(orderDTO);
         String urlPayment = "";
         try {
-            String mailTo = order.getUser().getEmail();
-            String subject = "Tạo đơn hàng hàng thành công";
-            Map<String, Object> variables = new HashMap<>();
-            variables.put("name", order.getUser().getFullName());
-            emailService.sendTemplateMail(mailTo, subject, MailTemplate.ORDER, variables);
+            this.sendMailCreateOrder(order);
             if (order.getPaymentMethod().equals("VNPAY")) {
                 urlPayment = vnpayService.createOrder((int) order.getTotalMoney(), String.valueOf(order.getId()), request);
                 order.setStatus(OrderStatus.UNPAID);
@@ -237,5 +242,84 @@ public class OrderService implements IOrderService {
             }
         }
         return result;
+    }
+
+    @Override
+    public void sendMailCreateOrder(Order order) {
+        DecimalFormat decimalFormat = new DecimalFormat("#,###");
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+        String mailTo = order.getUser().getEmail();
+        String subject = "Tạo đơn hàng hàng thành công";
+        Map<String, Object> context = new HashMap<>();
+        Timestamp orderDate = order.getCreatedAt();
+        LocalDateTime dateTime = Instant.ofEpochMilli(orderDate.getTime())
+                .atZone(ZoneId.systemDefault())
+                .toLocalDateTime();
+        String userReceiveName = order.getFullName();
+        String phoneNumber = order.getPhoneNumber();
+        String address = order.getAddress();
+        List<OrderDetail> orderDetails = orderDetailRepository.findAllByOrderId(order.getId());
+        double totalMoney = order.getTotalMoney();
+        double totalMoneyNotDiscount = totalMoney;
+        String linkOrder = linkOrderDetails + order.getId();
+        context.put("CUSTOMER_NAME", order.getUser().getFullName());
+        context.put("ORDER_DATE", dateTime.format(dateTimeFormatter));
+        context.put("CUSTOMER_RECEIVE_NAME", userReceiveName);
+        context.put("CUSTOMER_EMAIL", mailTo);
+        context.put("CUSTOMER_PHONE", phoneNumber);
+        context.put("CUSTOMER_ADDRESS", address);
+        context.put("ORDER_ITEMS", orderDetails);
+        context.put("ORDER_TOTAL", decimalFormat.format(totalMoney));
+        context.put("ORDER_LINK", linkOrder);
+        Coupon coupon = order.getCoupon();
+        if (!ObjectUtils.isEmpty(coupon)) {
+            String couponCode = coupon.getCode();
+            double discount = coupon.getDiscount();
+            if (discount > 0) {
+                double totalMoneyDiscount = totalMoney / (100 - discount) * 100;
+                double discountPrice = totalMoney - totalMoneyDiscount;
+                context.put("ORDER_DISCOUNT_PRICE", decimalFormat.format(discountPrice));
+                totalMoneyNotDiscount = totalMoney + (-1 * discountPrice);
+            }
+            context.put("ORDER_COUPON_CODE", couponCode);
+        }
+        context.put("ORDER_TOTAL_NOT_DISCOUNT", decimalFormat.format(totalMoneyNotDiscount));
+        emailService.sendTemplateMail(mailTo, subject, MailTemplate.ORDER, context);
+    }
+
+    @Override
+    public void sendMailShippedOrder(Order order) {
+        DecimalFormat decimalFormat = new DecimalFormat("#,###");
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+        String mailTo = order.getUser().getEmail();
+        String subject = "Giao hàng thành công";
+        Map<String, Object> context = new HashMap<>();
+        Timestamp orderDate = order.getUpdatedAt();
+        LocalDateTime dateTime = Instant.ofEpochMilli(orderDate.getTime())
+                .atZone(ZoneId.systemDefault())
+                .toLocalDateTime();
+        List<OrderDetail> orderDetails = orderDetailRepository.findAllByOrderId(order.getId());
+        double totalMoney = order.getTotalMoney();
+        String linkOrder = linkOrderDetails + order.getId();
+        double totalMoneyNotDiscount = totalMoney;
+        context.put("CUSTOMER_NAME", order.getUser().getFullName());
+        context.put("SHIPPED_DATE", dateTime.format(dateTimeFormatter));
+        context.put("ORDER_ITEMS", orderDetails);
+        context.put("ORDER_TOTAL", decimalFormat.format(totalMoney));
+        context.put("ORDER_LINK", linkOrder);
+        Coupon coupon = order.getCoupon();
+        if (!ObjectUtils.isEmpty(coupon)) {
+            String couponCode = coupon.getCode();
+            double discount = coupon.getDiscount();
+            if (discount > 0) {
+                double totalMoneyDiscount = totalMoney / (100 - discount) * 100;
+                double discountPrice = totalMoney - totalMoneyDiscount;
+                context.put("ORDER_DISCOUNT_PRICE", decimalFormat.format(discountPrice));
+                totalMoneyNotDiscount = totalMoney + (-1 * discountPrice);
+            }
+            context.put("ORDER_COUPON_CODE", couponCode);
+        }
+        context.put("ORDER_TOTAL_NOT_DISCOUNT", decimalFormat.format(totalMoneyNotDiscount));
+        emailService.sendTemplateMail(mailTo, subject, MailTemplate.SHIPPED, context);
     }
 }

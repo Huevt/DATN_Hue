@@ -24,4 +24,8 @@ public interface IOrderService extends IBaseService<Order, OrderDTO, UUID> {
     int orderReturn(HttpServletRequest request);
 
     List<Statistical> statisticals(int year);
+
+    void sendMailCreateOrder(Order order);
+
+    void sendMailShippedOrder(Order order);
 }
