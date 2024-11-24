@@ -20,33 +20,33 @@ import java.util.List;
 
 @RestControllerAdvice
 public class RestExceptionHandler {
-    private static final Log logger = LogFactory.getLog(RestExceptionHandler.class);
+    private static final Log LOGGER = LogFactory.getLog(RestExceptionHandler.class);
 
     @ExceptionHandler(NotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ResponseEntity<RestData<?>> handleNotFoundException(NotFoundException e) {
-        logger.error("NotFoundException: " + e.getMessage());
+        LOGGER.error("NotFoundException: ", e);
         return RestResponse.error(e.getStatus(), e.getUserMessage(), e.getDevMessage());
     }
 
     @ExceptionHandler(ConflictException.class)
     @ResponseStatus(HttpStatus.CONFLICT)
     public ResponseEntity<RestData<?>> handleConflictException(ConflictException e) {
-        logger.error("ConflictException: " + e.getMessage());
+        LOGGER.error("ConflictException: " + e);
         return RestResponse.error(e.getStatus(), e.getUserMessage(), e.getDevMessage());
     }
 
     @ExceptionHandler(InvalidParamException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ResponseEntity<RestData<?>> handleInvalidParamException(InvalidParamException e) {
-        logger.error("InvalidParamException: " + e.getMessage());
+        LOGGER.error("InvalidParamException: ", e);
         return RestResponse.error(e.getStatus(), e.getUserMessage(), e.getDevMessage());
     }
 
     @ExceptionHandler(ConstraintViolationException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ResponseEntity<RestData<?>> handleValidInputException(ConstraintViolationException e) {
-        logger.error("ConstraintViolationException: " + e.getMessage());
+        LOGGER.error("ConstraintViolationException: ", e);
         return RestResponse.error(HttpStatus.BAD_REQUEST, e.getMessage(), e.getMessage());
     }
 
@@ -57,28 +57,28 @@ public class RestExceptionHandler {
                 .stream()
                 .map(FieldError::getDefaultMessage)
                 .toList();
-        logger.error("BindException: " + errorMessages);
+        LOGGER.error("BindException: " + errorMessages);
         return RestResponse.errors(HttpStatus.BAD_REQUEST, errorMessages);
     }
 
     @ExceptionHandler(HttpClientErrorException.class)
     @ResponseStatus(HttpStatus.FORBIDDEN)
     public ResponseEntity<RestData<?>> handleHttpClientErrorException(HttpClientErrorException e) {
-        logger.error("HttpClientErrorException: " + e.getMessage());
+        LOGGER.error("HttpClientErrorException: ", e);
         return RestResponse.error(HttpStatus.FORBIDDEN, e.getMessage(), e.getMessage());
     }
 
     @ExceptionHandler(UnauthorizedException.class)
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     public ResponseEntity<RestData<?>> handleUnauthorizedException(UnauthorizedException e) {
-        logger.error("UnauthorizedException: " + e.getMessage());
+        LOGGER.error("UnauthorizedException: ", e);
         return RestResponse.error(e.getStatus(), e.getUserMessage(), e.getDevMessage());
     }
 
     @ExceptionHandler(AccessDeniedException.class)
     @ResponseStatus(HttpStatus.FORBIDDEN)
     public ResponseEntity<RestData<?>> handleAccessDeniedSecurityException(AccessDeniedException e) {
-        logger.error("AccessDeniedException: " + e.getMessage());
+        LOGGER.error("AccessDeniedException: ", e);
         return RestResponse.error(HttpStatus.FORBIDDEN,
                 "Bạn không có quyền truy cập vào chức năng này",
                 e.getMessage());
@@ -87,7 +87,7 @@ public class RestExceptionHandler {
     @ExceptionHandler(RuntimeException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ResponseEntity<RestData<?>> handleRuntimeException(RuntimeException e) {
-        logger.error("RuntimeException: " + e.getMessage());
+        LOGGER.error("RuntimeException: ", e);
         return RestResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, "Đã có lỗi xảy ra!", e.getMessage());
     }
 }

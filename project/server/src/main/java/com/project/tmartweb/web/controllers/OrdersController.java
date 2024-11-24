@@ -1,5 +1,6 @@
 package com.project.tmartweb.web.controllers;
 
+import com.project.tmartweb.application.services.order.IOrderExportService;
 import com.project.tmartweb.application.services.order.IOrderService;
 import com.project.tmartweb.domain.dtos.OrderDTO;
 import com.project.tmartweb.domain.entities.Cart;
@@ -9,26 +10,28 @@ import com.project.tmartweb.web.base.RestAPI;
 import com.project.tmartweb.web.base.RoleAdmin;
 import com.project.tmartweb.web.base.RolesAdminUser;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
 
 @RestAPI("${api.prefix}/orders")
 public class OrdersController {
+    private final IOrderService orderService;
+
+    private final IOrderExportService orderExportService;
+
     @Autowired
-    private IOrderService orderService;
+    public OrdersController(IOrderService orderService, IOrderExportService orderExportService) {
+        this.orderService = orderService;
+        this.orderExportService = orderExportService;
+    }
 
     @GetMapping("")
     @RolesAdminUser
@@ -106,5 +109,16 @@ public class OrdersController {
     @RoleAdmin
     public ResponseEntity<?> statistical(@RequestParam(required = false) int year) {
         return ResponseEntity.status(HttpStatus.OK).body(orderService.statisticals(year));
+    }
+
+    @GetMapping("/export/{orderId}")
+    @RoleAdmin
+    public ResponseEntity<?> export(@PathVariable UUID orderId, HttpServletResponse response) {
+        Order order = orderService.getById(orderId);
+        response.setContentType("application/pdf");
+        String fileName = "bill" + order.getCreatedAt().getTime() + ".pdf";
+        response.setHeader("Content-Disposition", "attachment; filename=" + fileName);
+        orderExportService.exportBillOrder(order, response);
+        return ResponseEntity.status(HttpStatus.OK).body("Export successfully");
     }
 }

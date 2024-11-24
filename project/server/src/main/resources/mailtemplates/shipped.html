@@ -74,9 +74,7 @@
                                 </tr>
                                 <tr>
                                     <th>Giá tiền:</th>
-                                    <td th:if="${item.product.discount != null}"
-                                        th:text="${#numbers.formatInteger(item.product.price * ((100 - (item.product.discount == null ? 0 : item.product.discount)) / 100), 0, 'POINT') + '₫'}">
-                                    </td>
+                                    <td th:text="${#numbers.formatInteger(item.price, 0, 'POINT') + '₫'}"></td>
                                 </tr>
                             </table>
                         </div>
