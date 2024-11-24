@@ -48,8 +48,14 @@
     margin: 0 1%;
 }
 
+.order-modal-btn {
+    display: flex;
+    gap: 10px;
+    justify-content: space-between;
+}
+
 .admin-modal__section .modal-body .form-group .btn-submit > button {
-    width: 100px;
+    min-width: 100px;
 }
 
 .admin-modal__container .loading {

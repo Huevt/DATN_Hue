@@ -15,7 +15,8 @@ public class WebCorsConfig {
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
                         .allowedOrigins("http://localhost:8080", "https://tmart-web.vercel.app")
-                        .allowedMethods("PUT", "DELETE", "GET", "POST");
+                        .allowedMethods("PUT", "DELETE", "GET", "POST")
+                        .exposedHeaders("Content-Disposition");
             }
         };
     }

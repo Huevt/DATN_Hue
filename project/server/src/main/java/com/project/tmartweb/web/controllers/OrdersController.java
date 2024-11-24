@@ -113,12 +113,11 @@ public class OrdersController {
 
     @GetMapping("/export/{orderId}")
     @RoleAdmin
-    public ResponseEntity<?> export(@PathVariable UUID orderId, HttpServletResponse response) {
+    public void export(@PathVariable UUID orderId, HttpServletResponse response) {
         Order order = orderService.getById(orderId);
         response.setContentType("application/pdf");
-        String fileName = "bill" + order.getCreatedAt().getTime() + ".pdf";
-        response.setHeader("Content-Disposition", "attachment; filename=" + fileName);
+        String fileName = "bill_" + order.getCreatedAt().getTime() + ".pdf";
+        response.setHeader("Content-Disposition", "filename=" + fileName);
         orderExportService.exportBillOrder(order, response);
-        return ResponseEntity.status(HttpStatus.OK).body("Export successfully");
     }
 }

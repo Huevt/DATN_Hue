@@ -29,7 +29,6 @@ const orderData = reactive({
 nextTick(async () => {
     await orderStore.fetchGetById(props.orderId);
     Object.assign(orderData, order.value);
-    console.log(orderData);
 });
 
 const handleCloseModal = () => {
@@ -48,6 +47,10 @@ const handleSubmit = async () => {
     if (successOrder.value === true) {
         emits("closeModal");
     }
+};
+
+const handleExportOrder = async () => {
+    await orderStore.fetchExportOrder(props.orderId);
 };
 </script>
 
@@ -214,9 +217,16 @@ const handleSubmit = async () => {
                             </p>
                         </div>
                     </div>
-                    <div class="btn-submit col-12">
+                    <div class="btn-submit order-modal-btn col-12">
                         <button class="btn btn-primary" type="submit">
                             Lưu
+                        </button>
+                        <button
+                            @click="handleExportOrder()"
+                            class="btn btn-secondary"
+                            type="button"
+                        >
+                            Xuất hóa đơn
                         </button>
                     </div>
                 </form>

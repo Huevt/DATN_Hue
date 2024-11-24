@@ -1,9 +1,9 @@
 <script setup>
-import { nextTick, ref, watch } from 'vue';
-import { storeToRefs } from 'pinia';
-import { useOrderStore } from '@/stores/order';
-import { dialog, dialogConfirm } from '@/helpers/swal';
-import OrderModal from './OrderModal.vue';
+import { nextTick, ref, watch } from "vue";
+import { storeToRefs } from "pinia";
+import { useOrderStore } from "@/stores/order";
+import { dialog, dialogConfirm } from "@/helpers/swal";
+import OrderModal from "./OrderModal.vue";
 
 const orderStore = useOrderStore();
 const { loadingOrder, orderList, pagination } = storeToRefs(orderStore);
@@ -16,50 +16,57 @@ const orderId = ref(null);
 nextTick(async () => {
     await orderStore.fetchGetAllOrder(page.value - 1, perPage.value);
     totalPage.value = pagination.value.lastPage + 1;
-})
+});
 
-watch(() => page.value, async () => {
-    await orderStore.fetchGetAllOrder(page.value - 1, perPage.value);
-})
+watch(
+    () => page.value,
+    async () => {
+        await orderStore.fetchGetAllOrder(page.value - 1, perPage.value);
+    }
+);
 
 const getStatusOrder = (status) => {
     switch (status) {
-        case 'PENDING':
-            return 'Chờ xác nhận';
-        case 'PAID':
-            return 'Đã thanh toán';
-        case 'UNPAID':
-            return 'Chưa thanh toán';
-        case 'PROCESSED':
-            return 'Đã xác nhận';
-        case 'SHIPPING':
-            return 'Đang vận chuyển';
-        case 'SHIPPED':
-            return 'Đã giao';
-        case 'CANCELLED':
-            return 'Đã huỷ';
+        case "PENDING":
+            return "Chờ xác nhận";
+        case "PAID":
+            return "Đã thanh toán";
+        case "UNPAID":
+            return "Chưa thanh toán";
+        case "PROCESSED":
+            return "Đã xác nhận";
+        case "SHIPPING":
+            return "Đang vận chuyển";
+        case "SHIPPED":
+            return "Đã giao";
+        case "CANCELLED":
+            return "Đã huỷ";
         default:
-            return '';
+            return "";
     }
-}
+};
 
 const handleShowDetail = async (item) => {
     orderId.value = item?.id;
     showModal.value = true;
-}
+};
 
 const handleCancelOrder = async (item) => {
-    if (item?.status === 'CANCELLED') {
-        dialog('Thông báo', 'warning', 'Đơn hàng đã bị hủy');
+    if (item?.status === "CANCELLED") {
+        dialog("Thông báo", "warning", "Đơn hàng đã bị hủy");
         return;
     }
-    dialogConfirm('Xác nhận', 'Hủy đơn hàng?', async () => {
-        await orderStore.fetchUpdateOrder(item?.id, {
-            status: 'CANCELLED'
-        }, page.value - 1, perPage.value);
-    })
-}
-
+    dialogConfirm("Xác nhận", "Hủy đơn hàng?", async () => {
+        await orderStore.fetchUpdateOrder(
+            item?.id,
+            {
+                status: "CANCELLED",
+            },
+            page.value - 1,
+            perPage.value
+        );
+    });
+};
 </script>
 
 <template>
@@ -86,7 +93,9 @@ const handleCancelOrder = async (item) => {
             </thead>
             <tbody>
                 <tr v-for="(item, index) in orderList" :key="item?.id">
-                    <th width="50px" scope="row">{{ (index + 1) + (perPage * (page - 1)) }}</th>
+                    <th width="50px" scope="row">
+                        {{ index + 1 + perPage * (page - 1) }}
+                    </th>
                     <td>{{ item.fullName }}</td>
                     <td>{{ item?.phoneNumber }}</td>
                     <td class="value-too-long" :title="item?.address">
@@ -98,25 +107,46 @@ const handleCancelOrder = async (item) => {
                     <td>{{ item?.paymentMethod }}</td>
                     <td>{{ $formatValue.formatMoney(item?.totalMoney) }}</td>
                     <td class="status-order">
-                        <span :class="['status-order-item', item?.status.toLowerCase()]">
+                        <span
+                            :class="[
+                                'status-order-item',
+                                item?.status.toLowerCase(),
+                            ]"
+                        >
                             {{ getStatusOrder(item?.status) }}
                         </span>
                     </td>
                     <td class="action">
-                        <button @click="handleShowDetail(item)" class="btn-confirm">
+                        <button
+                            @click="handleShowDetail(item)"
+                            class="btn-confirm"
+                        >
                             <i class="fa-regular fa-rectangle-list"></i>
                         </button>
-                        <button @click="handleCancelOrder(item)" class="btn-cancel">
+                        <button
+                            @click="handleCancelOrder(item)"
+                            class="btn-cancel"
+                        >
                             <i class="fa-solid fa-ban"></i>
                         </button>
                     </td>
                 </tr>
             </tbody>
         </table>
-        <v-pagination v-model="page" size="40" :length="totalPage" rounded="circle"></v-pagination>
+        <v-pagination
+            v-model="page"
+            size="40"
+            :length="totalPage"
+            rounded="circle"
+        ></v-pagination>
     </div>
-    <OrderModal v-if="showModal" :orderId="orderId" @closeModal="showModal = false" :page="page - 1"
-        :perPage="perPage" />
+    <OrderModal
+        v-if="showModal"
+        :orderId="orderId"
+        @closeModal="showModal = false"
+        :page="page - 1"
+        :perPage="perPage"
+    />
 </template>
 
 <style lang="css" src="../admin-table.css" scoped></style>

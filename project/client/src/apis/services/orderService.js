@@ -31,6 +31,13 @@ class orderService extends baseService {
         const res = await axios.get(`${this.endpoint}/statistical`, { params: { year: year } });
         return res;
     }
+
+    async exportOrder(id) {
+        const res = await axios.get(`${this.endpoint}/export/${id}`, {
+            responseType: 'blob'
+        });
+        return res;
+    }
 }
 
 export default new orderService();

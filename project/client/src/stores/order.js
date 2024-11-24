@@ -183,5 +183,33 @@ export const useOrderStore = defineStore('order', {
                 this.loadingOrder = false;
             }
         },
+
+        async fetchExportOrder(id) {
+            try {
+                this.loadingOrder = true;
+                const res = await orderService.exportOrder(id);
+                if (res.status === 200) {
+                    const blob = new Blob([res.data], { type: res.headers['content-type'] });
+                    const timestamp = new Date().getTime();
+                    const fileName = res.headers['content-disposition']
+                        ?.split('filename=')[1]
+                        ?.replace(/['"]/g, '') || `bill_${timestamp}.pdf`;
+
+                    const link = document.createElement('a');
+                    link.href = window.URL.createObjectURL(blob);
+                    link.download = fileName;
+                    link.click();
+
+                    window.URL.revokeObjectURL(link.href);
+                    toastify('Tạo hóa đơn thành công!', 'success');
+                    console.log(res.headers);
+                }
+            } catch (error) {
+                dialog('Lỗi', 'error', error?.response?.data?.userMessage);
+                console.error(error);
+            } finally {
+                this.loadingOrder = false;
+            }
+        }
     },
 })
