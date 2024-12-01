@@ -220,7 +220,6 @@ watch(
 // ---------------------- Lifecycle ------------------
 nextTick(async () => {
     await orderStore.fetchGetAllByUser(userId.value);
-    console.log(ordersByUser.value);
 });
 
 onMounted(() => {

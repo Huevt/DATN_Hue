@@ -63,7 +63,7 @@ export const useFeedbackStore = defineStore('feedback', {
                 this.loadingFeedback = true;
                 const res = await feedbackService.update(id, data);
                 if (res.status === 200) {
-                    toastify('Đánh giá bạn', 'success');
+                    toastify('Đánh giá thành công', 'success');
                 }
             } catch (error) {
                 console.error(error);
@@ -89,6 +89,17 @@ export const useFeedbackStore = defineStore('feedback', {
 
         fetchPushDataFeedback(data) {
             this.feedbackListData.push(data);
+        },
+
+        fetchUpdateFeedback(id, data) {
+            const feedbackData = this.feedbackListData.find(item => item.productId === id);
+            if (feedbackData) {
+                Object.assign(feedbackData, data);
+            }
+        },
+
+        fetchResetDataFeedback() {
+            this.feedbackListData = [];
         },
 
         async fetchGetAllByProduct(id, page, perPage, star) {
