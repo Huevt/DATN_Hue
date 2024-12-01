@@ -76,7 +76,7 @@ public class FeedbackService implements IFeedbackService {
 
     @Override
     public PaginationDTO<Feedback> getAllByProduct(UUID id, Integer page, Integer perPage, Integer star) {
-        if (page == null && perPage == null) {
+        if (page == null || perPage == null) {
             return new PaginationDTO<>(feedbackRepository.findAllByProductId(id, star), null);
         }
         Page<Feedback> feedbacks = feedbackRepository.findAllByProductId(id,

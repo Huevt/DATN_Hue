@@ -61,9 +61,7 @@ public class FeedbacksController {
 
     @PostMapping("")
     @RoleUser
-    public ResponseEntity<?> insertFeedback(
-            @RequestBody FeedbackDTO feedbackDTO
-    ) {
+    public ResponseEntity<?> insertFeedback(@RequestBody FeedbackDTO feedbackDTO) {
         var result = feedbackService.insert(feedbackDTO);
         return ResponseEntity.status(201).body(result);
     }

@@ -1,15 +1,13 @@
 <script setup>
-import { useFeedbackStore } from '@/stores/feedback';
-import { useUserStore } from '@/stores/user';
-import { storeToRefs } from 'pinia';
-import { nextTick, defineProps, reactive, toRaw, defineEmits } from 'vue';
-
-const emits = defineEmits(['pushData']);
+import { useFeedbackStore } from "@/stores/feedback";
+import { useUserStore } from "@/stores/user";
+import { storeToRefs } from "pinia";
+import { nextTick, defineProps, reactive, toRaw, watch } from "vue";
 
 const props = defineProps({
     data: Object,
-    classify: String
-})
+    classify: String,
+});
 
 const userStore = useUserStore();
 const { userId } = storeToRefs(userStore);
@@ -19,21 +17,23 @@ const feedbackData = reactive({
     star: 0,
     note: null,
     productId: props.data?.id,
-    userId: userId.value
-})
+    userId: userId.value,
+});
 
-nextTick(async () => {
-    console.log(props.data);
-})
+nextTick(async () => {});
 
-emits('pushData', feedbackStore.fetchPushDataFeedback(toRaw(feedbackData)));
-
+watch(feedbackData, () => {
+    feedbackStore.fetchUpdateFeedback(
+        feedbackData.productId,
+        toRaw(feedbackData)
+    );
+});
 </script>
 
 <template>
     <div class="feedback__list">
         <div class="feedback__item">
-            <img :src="data?.imageProducts[0]?.url" alt="">
+            <img :src="data?.imageProducts[0]?.url" alt="" />
             <div class="feedback__info">
                 <h5>{{ data?.title }}</h5>
                 <p>Phân loại: {{ classify }}</p>
@@ -45,7 +45,11 @@ emits('pushData', feedbackStore.fetchPushDataFeedback(toRaw(feedbackData)));
         </div>
         <div class="feedback__comment">
             <label for="note">Nội dung đánh giá:</label>
-            <textarea v-model="feedbackData.note" class="form-control" id="note"></textarea>
+            <textarea
+                v-model="feedbackData.note"
+                class="form-control"
+                id="note"
+            ></textarea>
         </div>
     </div>
 </template>

@@ -1,32 +1,38 @@
 <template>
-    <div class="product-catalogry">
-        <div class="header">
-            <div class="header__back">
-                <router-link :to="{ name: 'HomePage' }" title="Trang chủ">
-                    <i class="fa-solid fa-arrow-left"></i>
-                </router-link>
-            </div>
-            <h4>{{ category.name }}</h4>
-        </div>
-        <div class="product row sm-gutter">
-            <div
-                class="col-2 product__item"
-                v-for="item in productsByCategoryData"
-                :key="item.id"
-            >
-                <router-link
-                    :to="{ name: 'DetailProduct', params: { id: item.id } }"
-                    :title="item?.title"
-                    class="product-item"
+    <div class="product-catalogry__container">
+        <TheSidebar />
+        <div class="product-catalogry">
+            <div class="product-catalogry__content">
+                <div class="product-catalogry__title">
+                    <h4>{{ category.name }}</h4>
+                </div>
+                <div
+                    v-if="productsByCategoryData.length > 0"
+                    class="product row sm-gutter"
                 >
-                    <ProductTag :item="item"></ProductTag>
-                </router-link>
+                    <div
+                        class="col-2 product__item"
+                        v-for="item in productsByCategoryData"
+                        :key="item.id"
+                    >
+                        <router-link
+                            :to="{
+                                name: 'DetailProduct',
+                                params: { id: item.id },
+                            }"
+                            :title="item?.title"
+                            class="product-item"
+                        >
+                            <ProductTag :item="item"></ProductTag>
+                        </router-link>
+                    </div>
+                </div>
             </div>
-        </div>
-        <div class="link-more">
-            <b-button @click="handleLoadMore" class="btn-more"
-                >Xem thêm</b-button
-            >
+            <div class="link-more">
+                <b-button @click="handleLoadMore" class="btn-more"
+                    >Xem thêm</b-button
+                >
+            </div>
         </div>
     </div>
 </template>
@@ -37,6 +43,7 @@ import ProductTag from "../product/ProductTag.vue";
 import { useProductStore } from "@/stores/product";
 import { nextTick, onMounted, ref } from "vue";
 import { useRoute } from "vue-router";
+import TheSidebar from "@/views/layouts/TheSidebar.vue";
 
 const productStore = useProductStore();
 const categoryStore = useCategoryStore();
@@ -80,22 +87,33 @@ const handleLoadMore = async () => {
 </script>
 
 <style scoped>
+.product-catalogry__container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    gap: 10px;
+}
+
 .product-catalogry {
     width: 100%;
+    min-height: 100%;
     background-color: var(--color-white);
     border-radius: var(--border-radius-page);
     padding: 10px 20px;
     box-shadow: 0 2px 5px var(--color-box-shadow);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
-.header {
+.product-catalogry__title {
     display: flex;
     align-items: center;
     gap: 10px;
     padding-top: 10px;
 }
 
-.header > .header__back {
+.product-catalogry__title > .product-catalogry__title__back {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -106,14 +124,14 @@ const handleLoadMore = async () => {
     cursor: pointer;
 }
 
-.header > h4 {
+.product-catalogry__title > h4 {
     font-size: 1.8rem;
     font-weight: 500;
     margin: 0;
     padding: 0;
 }
 
-.header > a > i {
+.product-catalogry__title > a > i {
     padding-left: 10px;
 }
 
@@ -127,7 +145,7 @@ const handleLoadMore = async () => {
 }
 
 .product .product__item {
-    padding: 10px;
+    padding: 5px;
 }
 
 .link-more {

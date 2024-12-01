@@ -40,4 +40,5 @@ mail:
   username: ${MAIL_USERNAME}
   password: ${MAIL_PASSWORD}
 link:
+  frontend: ${URL_FRONTEND}
   order-details: ${URL_FRONTEND}/order/detail/

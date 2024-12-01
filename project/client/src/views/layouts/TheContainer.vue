@@ -10,16 +10,18 @@
 </template>
 
 <script>
-import TheHeader from './TheHeader.vue';
-import TheFooter from './TheFooter.vue';
-import ChatBot from '../pages/chatbot/ChatBot.vue';
+import TheHeader from "./TheHeader.vue";
+import TheFooter from "./TheFooter.vue";
+import ChatBot from "../pages/chatbot/ChatBot.vue";
 
 export default {
-    name: 'TheContainer',
+    name: "TheContainer",
     components: {
-        TheHeader, TheFooter, ChatBot
-    }
-}
+        TheHeader,
+        TheFooter,
+        ChatBot,
+    },
+};
 </script>
 
 <style scoped>
@@ -33,5 +35,8 @@ main {
 
 section {
     width: 100%;
+    min-height: calc(
+        100vh - var(--height-header) - var(--height-footer) - 20px
+    );
 }
 </style>
