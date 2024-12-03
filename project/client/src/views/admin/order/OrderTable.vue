@@ -56,6 +56,14 @@ const handleCancelOrder = async (item) => {
         dialog("Thông báo", "warning", "Đơn hàng đã bị hủy");
         return;
     }
+    if (item?.status === "SHIPPING" || item?.status === "SHIPPED") {
+        dialog(
+            "Thông báo",
+            "warning",
+            "Không thể hủy đơn hàng đã giao cho đơn vị vận chuyển"
+        );
+        return;
+    }
     dialogConfirm("Xác nhận", "Hủy đơn hàng?", async () => {
         await orderStore.fetchUpdateOrder(
             item?.id,
