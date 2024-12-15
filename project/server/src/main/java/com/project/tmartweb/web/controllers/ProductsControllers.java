@@ -44,9 +44,10 @@ public class ProductsControllers {
     }
 
     @GetMapping("/category/{id}")
-    public ResponseEntity<?> getProductsByCategoryId(@PathVariable UUID id,
-                                                     @RequestParam(name = "page", required = false) int page,
-                                                     @RequestParam(name = "perPage", required = false) int perPage) {
+    public ResponseEntity<?> getProductsByCategoryId(
+            @PathVariable UUID id,
+            @RequestParam(name = "page", required = false) int page,
+            @RequestParam(name = "perPage", required = false) int perPage) {
         var result = iProductService.getAllProductsByCategory(id, page, perPage);
         return ResponseEntity.ok(result);
     }

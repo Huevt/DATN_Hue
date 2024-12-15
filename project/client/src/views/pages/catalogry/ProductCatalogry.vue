@@ -5,6 +5,23 @@
             <div class="product-catalogry__content">
                 <div class="product-catalogry__title">
                     <h4>{{ category.name }}</h4>
+                    <div class="sort-by">
+                        Sắp xếp theo:
+                        <select v-model="price" class="price form-select">
+                            <option value="default" hidden selected>
+                                Giá bán
+                            </option>
+                            <option value="desc">Giá: Cao đến thấp</option>
+                            <option value="asc">Giá: Thấp đến cao</option>
+                        </select>
+                        <select v-model="feedback" class="feedback form-select">
+                            <option value="default" hidden selected>
+                                Đánh giá
+                            </option>
+                            <option value="desc">Đánh giá: Cao đến thấp</option>
+                            <option value="asc">Đánh giá: Thấp đến cao</option>
+                        </select>
+                    </div>
                 </div>
                 <div
                     v-if="productsByCategoryData.length > 0"
@@ -41,7 +58,7 @@
 import { useCategoryStore } from "@/stores/category";
 import ProductTag from "../product/ProductTag.vue";
 import { useProductStore } from "@/stores/product";
-import { nextTick, onMounted, ref } from "vue";
+import { nextTick, onMounted, ref, watch } from "vue";
 import { useRoute } from "vue-router";
 import TheSidebar from "@/views/layouts/TheSidebar.vue";
 
@@ -52,8 +69,10 @@ const productsByCategoryData = ref([]);
 const category = ref({});
 const categoryId = ref(route.params.id);
 const page = ref(0);
-const perPage = ref(6);
+const perPage = ref(1);
 const totalPage = ref(0);
+const price = ref("default");
+const feedback = ref("default");
 
 nextTick(async () => {
     await fetchGetAllByCategory();
@@ -74,16 +93,61 @@ const fetchGetAllByCategory = async () => {
     );
 };
 
+const getAvgStar = (feedbacks) => {
+    if (!Array.isArray(feedbacks) || feedbacks.length === 0) return 0;
+    let totalStars = 0;
+    feedbacks.forEach((feedback) => {
+        totalStars += feedback.star;
+    });
+    return totalStars / feedbacks.length;
+};
+
+const sortProductsByPrice = () => {
+    productsByCategoryData.value.sort((a, b) => {
+        if (price.value !== "default") {
+            if (price.value === "asc") {
+                return a.price - b.price;
+            } else if (price.value === "desc") {
+                return b.price - a.price;
+            }
+        }
+    });
+};
+
+const sortProductsByFeedback = () => {
+    productsByCategoryData.value.sort((a, b) => {
+        const avgStarA = getAvgStar(a.feedbacks);
+        const avgStarB = getAvgStar(b.feedbacks);
+        if (feedback.value !== "default") {
+            if (feedback.value === "asc") {
+                return avgStarA - avgStarB;
+            } else if (feedback.value === "desc") {
+                return avgStarB - avgStarA;
+            }
+        }
+    });
+};
+
 const handleLoadMore = async () => {
     if (page.value >= totalPage.value) return;
     page.value += 1;
     await productStore.getAllByCategory(
         categoryId.value,
         page.value,
-        perPage.value
+        perPage.value,
+        price.value,
+        feedback.value
     );
     productsByCategoryData.value.push(...productStore.getProductsByCategory);
 };
+
+watch(
+    () => [price.value, feedback.value],
+    () => {
+        sortProductsByPrice();
+        sortProductsByFeedback();
+    }
+);
 </script>
 
 <style scoped>
@@ -107,10 +171,18 @@ const handleLoadMore = async () => {
 }
 
 .product-catalogry__title {
+    padding-top: 10px;
+}
+
+.product-catalogry__title .sort-by {
     display: flex;
+    padding: 10px 0;
     align-items: center;
     gap: 10px;
-    padding-top: 10px;
+}
+
+.product-catalogry__title .sort-by > select {
+    width: fit-content;
 }
 
 .product-catalogry__title > .product-catalogry__title__back {

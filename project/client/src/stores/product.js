@@ -154,6 +154,7 @@ export const useProductStore = defineStore('product', {
 
         async fetchGetAllSale(page, perPage) {
             try {
+                this.loading = true;
                 const res = await productService.getAllSale(page, perPage);
                 if (res.status === 200) {
                     this.productListSale = res.data.data;

@@ -3,6 +3,7 @@ package com.project.tmartweb.application.services.cart;
 import com.project.tmartweb.application.repositories.CartRepository;
 import com.project.tmartweb.application.services.product.IProductService;
 import com.project.tmartweb.application.services.user.IUserService;
+import com.project.tmartweb.config.exceptions.InvalidParamException;
 import com.project.tmartweb.config.exceptions.NotFoundException;
 import com.project.tmartweb.domain.dtos.CartDTO;
 import com.project.tmartweb.domain.entities.Cart;
@@ -35,13 +36,19 @@ public class CartService implements ICartService {
     public Cart insert(CartDTO cartDTO) {
         Optional<Cart> cartExists = cartRepository.findByProductId(cartDTO.getProductId());
         User user = userService.getById(cartDTO.getUserId());
+        Product product = productService.getById(cartDTO.getProductId());
 
         if (cartExists.isPresent() && cartExists.get().getUser().getId().equals(cartDTO.getUserId())) {
             cartExists.get().setQuantity(cartExists.get().getQuantity() + cartDTO.getQuantity());
+            if (product.getQuantity() < cartExists.get().getQuantity()) {
+                throw new InvalidParamException("Số lượng sản phẩm trong kho không đủ", "Quantity not enough");
+            }
             return cartRepository.save(cartExists.get());
         }
+        if (product.getQuantity() < cartDTO.getQuantity()) {
+            throw new InvalidParamException("Số lượng sản phẩm trong kho không đủ", "Quantity not enough");
+        }
         Cart cart = mapper.map(cartDTO, Cart.class);
-        Product product = productService.getById(cartDTO.getProductId());
         cart.setUser(user);
         cart.setProduct(product);
         return cartRepository.save(cart);

@@ -21,6 +21,9 @@ public class Product extends AbstractAuditingEntity {
 
     private double price;
 
+    @Column(name = "sale_price")
+    private double salePrice;
+
     private double discount;
 
     private String description;

@@ -10,10 +10,20 @@
             </router-link>
         </div>
         <div class="product row sm-gutter">
-            <b-carousel id="carousel" :breakpoints="breakpoints" :pagination="false">
-                <V-Slide v-for="(item) in productListBestSeller" :key="item?.id">
-                    <router-link :to="{ name: 'DetailProduct', params: { id: item?.id } }" :title="item?.title"
-                        class="product-item">
+            <b-carousel
+                id="carousel"
+                :breakpoints="breakpoints"
+                :pagination="false"
+            >
+                <V-Slide v-for="item in productListBestSeller" :key="item?.id">
+                    <router-link
+                        :to="{
+                            name: 'DetailProduct',
+                            params: { id: item?.id },
+                        }"
+                        :title="item?.title"
+                        class="product-item"
+                    >
                         <ProductTag :item="item"></ProductTag>
                     </router-link>
                 </V-Slide>
@@ -23,21 +33,21 @@
 </template>
 
 <script setup>
-import { useProductStore } from '@/stores/product';
-import ProductTag from '@/views/pages/product/ProductTag.vue';
-import { storeToRefs } from 'pinia';
-import { nextTick, ref } from 'vue';
+import { useProductStore } from "@/stores/product";
+import ProductTag from "@/views/pages/product/ProductTag.vue";
+import { storeToRefs } from "pinia";
+import { nextTick, ref } from "vue";
 
 const breakpoints = ref({
     700: {
         itemsToShow: 3,
-        snapAlign: 'center'
+        snapAlign: "center",
     },
     1024: {
         itemsToShow: 6,
-        snapAlign: 'start'
-    }
-})
+        snapAlign: "start",
+    },
+});
 
 const productStore = useProductStore();
 const { loading, productListBestSeller } = storeToRefs(productStore);
@@ -47,9 +57,7 @@ const perPage = ref(12);
 
 nextTick(async () => {
     await productStore.fetchGetAllBestSeller(page.value, perPage.value);
-})
-
-
+});
 </script>
 
 <style scoped>
@@ -78,17 +86,17 @@ nextTick(async () => {
     padding-top: 10px;
 }
 
-.header>h4 {
+.header > h4 {
     font-size: 1.2rem;
 }
 
-.header>a {
+.header > a {
     text-decoration: none;
     font-size: 1.2rem;
     color: var(--color-primary);
 }
 
-.header>a>i {
+.header > a > i {
     padding-left: 10px;
 }
 

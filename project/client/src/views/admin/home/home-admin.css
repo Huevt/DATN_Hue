@@ -8,7 +8,7 @@
     margin-top: 40px;
 }
 
-.home-admin-header>h1 {
+.home-admin-header > h1 {
     text-align: center;
 }
 
@@ -22,7 +22,7 @@
     gap: 10px;
 }
 
-.detail-body-content .body-content-product>img {
+.detail-body-content .body-content-product > img {
     width: 60px;
     border: 1px solid var(--color-border);
     border-radius: var(--border-radius);
@@ -39,11 +39,11 @@
     -webkit-box-orient: vertical;
 }
 
-.detail-body-content .body-content-product .product-info .product-classify {
+.detail-body-content .body-content-product .product-info .product-sold {
     color: var(--color-grey);
-    padding-top: 10px;
+    padding-top: 5px;
 }
 
-.product-best-seller>h3 {
+.product-best-seller > h3 {
     padding-bottom: 25px;
 }

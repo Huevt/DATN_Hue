@@ -128,6 +128,7 @@ import { useUserStore } from "@/stores/user";
 import { useAuthStore } from "@/stores/auth";
 import { storeToRefs } from "pinia";
 import router from "@/routers/router";
+import { dialog } from "@/helpers/swal";
 
 // --------------------- Khai báo biến ----------------------
 const quantity = ref(1);
@@ -190,6 +191,14 @@ const increment = () => {
 };
 
 const handleAddToCart = () => {
+    if (product.value.quantity === 0) {
+        dialog(
+            "Thêm vào giỏ hàng thất bại",
+            "error",
+            "Sản phẩm bạn chọn đã hết hàng"
+        );
+        return;
+    }
     if (!isLoggedIn.value) {
         router.push({
             name: "Login",
