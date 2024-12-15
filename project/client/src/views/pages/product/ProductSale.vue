@@ -9,7 +9,7 @@ import TheSidebar from '@/views/layouts/TheSidebar.vue';
 const productStore = useProductStore();
 const { loading, productListSale, pagination } = storeToRefs(productStore);
 const page = ref(1);
-const perPage = ref(6);
+const perPage = ref(12);
 const totalPage = ref(0);
 const productsData = ref([]);
 const price = ref('default');
