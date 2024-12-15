@@ -29,8 +29,8 @@ public interface ProductRepository extends JpaRepository<Product, UUID> {
             "group by p.id " +
             "order by CASE WHEN :feedback = 'asc' THEN COALESCE(avg(f.star), 0) END ASC, " +
             "CASE WHEN :feedback = 'desc' THEN COALESCE(avg(f.star), 0) END DESC NULLS LAST, " +
-            "CASE WHEN :price = 'asc' THEN p.price END ASC, " +
-            "CASE WHEN :price = 'desc' THEN p.price END DESC NULLS LAST ")
+            "CASE WHEN :price = 'asc' THEN p.salePrice END ASC, " +
+            "CASE WHEN :price = 'desc' THEN p.salePrice END DESC NULLS LAST ")
     Page<Product> findAllBySearch(String keyword, String feedback, String price, Pageable pageable);
 
     @Query("select pr " +

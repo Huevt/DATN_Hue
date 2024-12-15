@@ -18,6 +18,8 @@ public class ProductDTO {
 
     private double price;
 
+    private double salePrice;
+
     private double discount;
 
     private int quantity;

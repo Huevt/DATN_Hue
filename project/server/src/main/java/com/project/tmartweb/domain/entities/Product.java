@@ -19,7 +19,8 @@ import java.util.List;
 public class Product extends AbstractAuditingEntity {
     private String title;
 
-    private double price;
+    @Column(name = "origin_price")
+    private double originPrice;
 
     @Column(name = "sale_price")
     private double salePrice;

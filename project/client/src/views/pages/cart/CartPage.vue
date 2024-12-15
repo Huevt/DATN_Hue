@@ -56,10 +56,7 @@
                             <p>
                                 {{
                                     $formatValue.formatMoney(
-                                        handleCaculatorPrice(
-                                            item?.product?.price,
-                                            item?.product?.discount
-                                        )
+                                        item?.product?.salePrice
                                     )
                                 }}
                             </p>
@@ -88,10 +85,8 @@
                             <p>
                                 {{
                                     $formatValue.formatMoney(
-                                        handleCaculatorPrice(
-                                            item?.product?.price,
-                                            item?.product?.discount
-                                        ) * item?.quantity
+                                        item?.product?.salePrice *
+                                            item?.quantity
                                     )
                                 }}
                             </p>
@@ -324,13 +319,6 @@ const handleSelect = () => {
             indeterminate.value = false;
         }
     }
-};
-
-const handleCaculatorPrice = (price, discount) => {
-    if (discount > 0) {
-        return price * ((100 - discount) / 100);
-    }
-    return price;
 };
 
 const handleCaculatorTotalMoney = _.debounce(async function () {

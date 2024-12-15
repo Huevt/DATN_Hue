@@ -73,15 +73,16 @@ public class OrderService implements IOrderService {
         for (CartDTO cartDTO : orderDTO.getCartItems()) {
             Product product = productService.getById(cartDTO.getProductId());
             if (product.getQuantity() < cartDTO.getQuantity()) {
-                throw new InvalidParamException("Số lượng sản phẩm trong kho không đủ", "Quantity not enough");
+                throw new InvalidParamException("Số lượng sản phẩm trong kho không đủ",
+                                                "Quantity not enough");
             }
             OrderDetail orderDetail = mapper.map(cartDTO, OrderDetail.class);
             orderDetail.setProduct(product);
             orderDetail.setOrder(order);
-            orderDetail.setPrice(product.getDiscount() == 0 ?
-                    product.getPrice() :
-                    product.getPrice() * (100 - product.getDiscount()) / 100);
-            orderDetail.setTotalMoney(Calculator.totalMoney(product.getPrice(), cartDTO.getQuantity(), product.getDiscount()));
+            orderDetail.setPrice(product.getSalePrice());
+            orderDetail.setTotalMoney(
+                    Calculator.totalMoney(
+                            product.getSalePrice(), cartDTO.getQuantity()));
             orderDetails.add(orderDetailRepository.save(orderDetail));
             Cart cart = cartService.getById(cartDTO.getId());
             cartService.delete(cart);
@@ -95,7 +96,7 @@ public class OrderService implements IOrderService {
         notification.setOrder(order);
         notification.setTitle("Đơn hàng đã tạo thành công");
         notification.setContent("Đơn hàng " + order.getId() + " đã được tạo thành công. " +
-                " Bạn có thể theo dõi đơn hàng tại đây.");
+                                        " Bạn có thể theo dõi đơn hàng tại đây.");
         notification.setUser(user);
         notificationRepository.save(notification);
         order.setTotalMoney(Calculator.totalMoneyOrder(orderDetails, discount));
@@ -114,17 +115,17 @@ public class OrderService implements IOrderService {
             if (orderDTO.getStatus() == OrderStatus.PROCESSED) {
                 notification.setTitle("Đơn hàng đã xử lý thành công.");
                 notification.setContent("Đơn hàng của bạn đã được xử lý thành công. " +
-                        " Chúng tôi sẽ giao cho đơn vị vận chuyển trong thời gian sớm nhất.");
+                                                " Chúng tôi sẽ giao cho đơn vị vận chuyển trong thời gian sớm nhất.");
             }
             if (orderDTO.getStatus() == OrderStatus.SHIPPING) {
                 notification.setTitle("Đơn hàng đang được giao.");
                 notification.setContent("Đơn hàng của bạn đã được giao cho đơn vị vận chuyển. " +
-                        " Hãy chú ý điện thoại nhé, đơn hàng sẽ được giao tới bạn trong thời gian sớm nhất có thể.");
+                                                " Hãy chú ý điện thoại nhé, đơn hàng sẽ được giao tới bạn trong thời gian sớm nhất có thể.");
             }
             if (orderDTO.getStatus() == OrderStatus.SHIPPED) {
                 notification.setTitle("Đơn hàng đã giao thành công.");
                 notification.setContent("Đơn hàng của bạn đã được giao thành công. " +
-                        " Hãy đánh trải nghiệm, đánh giá sản phẩm và nếu có lỗi gì hãy liên hệ với chúng tôi ngay nhé.");
+                                                " Hãy đánh trải nghiệm, đánh giá sản phẩm và nếu có lỗi gì hãy liên hệ với chúng tôi ngay nhé.");
                 this.sendMailShippedOrder(order);
             }
             if (orderDTO.getStatus() == OrderStatus.CANCELLED) {
@@ -156,7 +157,7 @@ public class OrderService implements IOrderService {
         if (page == null && perPage == null) {
             return new PaginationDTO<>(orderRepository.findAll(
                     Sort.by("createdAt").descending()),
-                    null);
+                                       null);
         }
         BasePagination<Order, OrderRepository> basePagination = new BasePagination<>(orderRepository);
         return basePagination.paginate(page, perPage);
@@ -181,7 +182,10 @@ public class OrderService implements IOrderService {
     public double totalMoneyOrder(List<Cart> carts, double discount) {
         double total = 0;
         for (Cart orderItem : carts) {
-            total += Calculator.totalMoney(orderItem.getProduct().getPrice(), orderItem.getQuantity(), orderItem.getProduct().getDiscount());
+            total += Calculator.totalMoney(
+                    orderItem.getProduct().getSalePrice(),
+                    orderItem.getQuantity()
+            );
         }
         total = total * (100 - discount) / 100;
         return total;
@@ -202,7 +206,8 @@ public class OrderService implements IOrderService {
         try {
             this.sendMailCreateOrder(order);
             if (order.getPaymentMethod().equals("VNPAY")) {
-                urlPayment = vnpayService.createOrder((int) order.getTotalMoney(), String.valueOf(order.getId()), request);
+                urlPayment =
+                        vnpayService.createOrder((int) order.getTotalMoney(), String.valueOf(order.getId()), request);
                 order.setStatus(OrderStatus.UNPAID);
                 orderRepository.save(order);
             }
@@ -253,8 +258,8 @@ public class OrderService implements IOrderService {
         Map<String, Object> context = new HashMap<>();
         Timestamp orderDate = order.getCreatedAt();
         LocalDateTime dateTime = Instant.ofEpochMilli(orderDate.getTime())
-                .atZone(ZoneId.systemDefault())
-                .toLocalDateTime();
+                                        .atZone(ZoneId.systemDefault())
+                                        .toLocalDateTime();
         String userReceiveName = order.getFullName();
         String phoneNumber = order.getPhoneNumber();
         String address = order.getAddress();
@@ -296,8 +301,8 @@ public class OrderService implements IOrderService {
         Map<String, Object> context = new HashMap<>();
         Timestamp orderDate = order.getUpdatedAt();
         LocalDateTime dateTime = Instant.ofEpochMilli(orderDate.getTime())
-                .atZone(ZoneId.systemDefault())
-                .toLocalDateTime();
+                                        .atZone(ZoneId.systemDefault())
+                                        .toLocalDateTime();
         List<OrderDetail> orderDetails = orderDetailRepository.findAllByOrderId(order.getId());
         double totalMoney = order.getTotalMoney();
         String linkOrder = linkOrderDetails + order.getId();

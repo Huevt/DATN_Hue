@@ -3,15 +3,16 @@
     height: 100%;
 }
 
-.admin-table>table {
+.admin-table table {
     width: 100%;
+    vertical-align: middle;
 }
 
 .admin-table .admin-header {
     padding-bottom: 10px;
 }
 
-.admin-table .admin-header>h1 {
+.admin-table .admin-header > h1 {
     text-align: center;
     font-size: 2.5rem;
     padding-bottom: 20px;
@@ -22,7 +23,7 @@
     gap: 10px;
 }
 
-.admin-table .admin-header .btn-group>button {
+.admin-table .admin-header .btn-group > button {
     width: fit-content;
     display: block;
 }
@@ -32,35 +33,35 @@
     text-align: center;
 }
 
-.admin-table table .action>button {
+.admin-table table .action > button {
     margin: 0 5px;
     padding: 0 5px;
     border: none;
     background-color: transparent;
 }
 
-.admin-table table .action>button>i {
+.admin-table table .action > button > i {
     font-size: 1.2rem;
 }
 
-.admin-table table .action>button.btn-edit {
+.admin-table table .action > button.btn-edit {
     color: var(--color-orange);
 }
 
-.admin-table table .action>button.btn-delete {
+.admin-table table .action > button.btn-delete {
     color: var(--color-red);
 }
 
-.admin-table table .action>button.btn-confirm>i,
-.admin-table table .action>button.btn-cancel>i {
+.admin-table table .action > button.btn-confirm > i,
+.admin-table table .action > button.btn-cancel > i {
     font-size: 1.3rem;
 }
 
-.admin-table table .action>button.btn-confirm {
+.admin-table table .action > button.btn-confirm {
     color: var(--color-green);
 }
 
-.admin-table table .action>button.btn-cancel {
+.admin-table table .action > button.btn-cancel {
     color: var(--color-red);
 }
 
@@ -72,7 +73,7 @@
     max-width: 250px;
 }
 
-.admin-table table .value-too-long>span {
+.admin-table table .value-too-long > span {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -148,7 +149,11 @@
     text-align: center;
 }
 
-.image-gallery>img {
+.image-gallery > img {
     width: 150px;
+}
 
+.table-product {
+    max-height: 480px;
+    overflow-y: scroll;
 }

@@ -83,12 +83,7 @@
                 </div>
                 <div class="content-price product-info-price">
                     <span>
-                        {{
-                            $formatValue.formatMoney(
-                                item?.product?.price *
-                                    ((100 - item?.product?.discount) / 100)
-                            )
-                        }}
+                        {{ $formatValue.formatMoney(item?.product?.salePrice) }}
                     </span>
                 </div>
                 <div class="title-quantity product-info-quantity">
@@ -98,9 +93,7 @@
                     <span>
                         {{
                             $formatValue.formatMoney(
-                                item?.product?.price *
-                                    ((100 - item?.product?.discount) / 100) *
-                                    item?.quantity
+                                item?.product?.salePrice * item?.quantity
                             )
                         }}
                     </span>

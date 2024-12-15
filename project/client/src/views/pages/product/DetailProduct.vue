@@ -47,18 +47,10 @@
                 </div>
                 <div class="product-price">
                     <p v-if="product?.discount > 0" class="price-old">
-                        {{ $formatValue.formatMoney(product?.price) }}
+                        {{ $formatValue.formatMoney(product?.originPrice) }}
                     </p>
                     <p class="price-new">
-                        {{
-                            product?.discount > 0
-                                ? $formatValue.formatMoney(
-                                      (product?.price *
-                                          (100 - product?.discount)) /
-                                          100
-                                  )
-                                : $formatValue.formatMoney(product?.price)
-                        }}
+                        {{ $formatValue.formatMoney(product?.salePrice) }}
                     </p>
                     <div v-if="product?.discount > 0" class="discount">
                         <p>{{ product?.discount }}% GIẢM</p>

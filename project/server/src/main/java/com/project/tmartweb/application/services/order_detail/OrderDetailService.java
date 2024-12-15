@@ -36,10 +36,14 @@ public class OrderDetailService implements IOrderDetailService {
         OrderDetail orderDetail = mapper.map(orderDetailDTO, OrderDetail.class);
         Product product = productService.getById(orderDetailDTO.getProductId());
         Order order = orderRepository.findById(orderDetailDTO.getOrderId())
-                .orElseThrow(() -> new NotFoundException("Đơn hàng không tồn taị!", "Order not found"));
+                                     .orElseThrow(() -> new NotFoundException("Đơn hàng không tồn taị!",
+                                                                              "Order not found"));
         orderDetail.setProduct(product);
         orderDetail.setOrder(order);
-        orderDetail.setTotalMoney(Calculator.totalMoney(product.getPrice(), orderDetail.getQuantity(), product.getDiscount()));
+        orderDetail.setTotalMoney(
+                Calculator.totalMoney(
+                        product.getSalePrice(), orderDetail.getQuantity()
+                ));
         return orderDetailRepository.save(orderDetail);
     }
 

@@ -32,6 +32,10 @@ nextTick(async () => {
 });
 
 const handleCloseModal = () => {
+    const dialog = document.querySelector(".swal2-popup");
+    if (dialog) {
+        return;
+    }
     emits("closeModal");
 };
 
@@ -134,7 +138,7 @@ const handleExportOrder = async () => {
                                     <p>
                                         {{
                                             $formatValue.formatMoney(
-                                                item?.product?.price
+                                                item?.product?.salePrice
                                             )
                                         }}
                                     </p>
@@ -146,7 +150,7 @@ const handleExportOrder = async () => {
                                     <p>
                                         {{
                                             $formatValue.formatMoney(
-                                                item?.product?.price -
+                                                item?.product?.salePrice -
                                                     item?.price
                                             )
                                         }}

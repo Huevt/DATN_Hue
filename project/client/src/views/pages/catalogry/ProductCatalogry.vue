@@ -106,9 +106,9 @@ const sortProductsByPrice = () => {
     productsByCategoryData.value.sort((a, b) => {
         if (price.value !== "default") {
             if (price.value === "asc") {
-                return a.price - b.price;
+                return a.salePrice - b.salePrice;
             } else if (price.value === "desc") {
-                return b.price - a.price;
+                return b.salePrice - a.salePrice;
             }
         }
     });

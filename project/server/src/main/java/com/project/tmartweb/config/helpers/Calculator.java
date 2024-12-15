@@ -6,8 +6,8 @@ import com.project.tmartweb.domain.entities.OrderDetail;
 import java.util.List;
 
 public class Calculator {
-    public static double totalMoney(double price, int quantity, double discount) {
-        return (price * (100 - discount) / 100) * quantity;
+    public static double totalMoney(double price, int quantity) {
+        return price * quantity;
     }
 
     public static double totalMoneyOrder(List<OrderDetail> orderDetails, double discount) {

@@ -44,14 +44,19 @@ public class ProductService implements IProductService {
             Integer page,
             Integer perPage
     ) {
-        if (page == null && perPage == null) {
-            List<Product> products = productRepository.findAllByDeleted(true,
+        if (page == null || perPage == null) {
+            List<Product> products = productRepository.findAllByDeleted(
+                    true,
                     Sort.by("createdAt").descending());
             setSoldQuantity(products);
             return new PaginationDTO<>(products, null);
         }
-        Page<Product> pageData = productRepository.findAllByDeleted(true,
-                PageRequest.of(page, perPage, Sort.by("createdAt").descending()));
+        Page<Product> pageData = productRepository.findAllByDeleted(
+                true,
+                PageRequest.of(
+                        page,
+                        perPage,
+                        Sort.by("createdAt").descending()));
         setSoldQuantity(pageData.getContent());
         BasePagination<Product, ProductRepository> pagination = new BasePagination<>(productRepository);
         return pagination.paginate(page, perPage, pageData);
@@ -81,7 +86,8 @@ public class ProductService implements IProductService {
             Integer page,
             Integer perPage
     ) {
-        Page<Product> products = productRepository.findAllBySearch(keyword, feedback, price,
+        Page<Product> products = productRepository.findAllBySearch(
+                keyword, feedback, price,
                 PageRequest.of(page, perPage));
         BasePagination<Product, ProductRepository> pagination = new BasePagination<>();
         return pagination.paginate(page, perPage, products);
@@ -91,6 +97,14 @@ public class ProductService implements IProductService {
     public Product insert(ProductDTO productDTO) {
         Category category = categoryService.getById(productDTO.getCategoryId());
         Product product = mapper.map(productDTO, Product.class);
+        double salePrice = product.getSalePrice();
+        double discount = 0;
+        if (salePrice > 0 && salePrice != product.getOriginPrice()) {
+            discount = 100 - ((salePrice / product.getOriginPrice()) * 100);
+        } else if (salePrice == 0) {
+            product.setSalePrice(product.getOriginPrice());
+        }
+        product.setDiscount(Math.round(discount));
         product.setCategory(category);
         return productRepository.save(product);
     }
@@ -100,6 +114,14 @@ public class ProductService implements IProductService {
         Product product = getById(id);
         Category category = categoryService.getById(productDTO.getCategoryId());
         mapper.map(productDTO, product);
+        double salePrice = product.getSalePrice();
+        double discount = 0;
+        if (salePrice > 0 && salePrice != product.getOriginPrice()) {
+            discount = 100 - ((salePrice / product.getOriginPrice()) * 100);
+        } else if (salePrice == 0) {
+            product.setSalePrice(product.getOriginPrice());
+        }
+        product.setDiscount(Math.round(discount));
         product.setCategory(category);
         return productRepository.save(product);
     }
@@ -112,17 +134,22 @@ public class ProductService implements IProductService {
 
     @Override
     public PaginationDTO<Product> getAll(Integer page, Integer perPage) {
-        if (page == null && perPage == null) {
-            List<Product> products = productRepository.findAllByDeleted(false,
+        if (page == null || perPage == null) {
+            List<Product> products = productRepository.findAllByDeleted(
+                    false,
                     Sort.by("createdAt").descending());
             setSoldQuantity(products);
             return new PaginationDTO<>(products, null);
         }
-        Page<Product> pageData = productRepository.findAllByDeleted(false,
-                PageRequest.of(page, perPage, Sort.by("createdAt").descending()));
+        Page<Product> pageData = productRepository.findAllByDeleted(
+                false,
+                PageRequest.of(
+                        page,
+                        perPage,
+                        Sort.by("createdAt").descending()));
         setSoldQuantity(pageData.getContent());
         Pagination pagination = new Pagination(page, perPage, pageData.getTotalPages() - 1,
-                pageData.getTotalElements());
+                                               pageData.getTotalElements());
         return new PaginationDTO<>(pageData.getContent(), pagination);
     }
 

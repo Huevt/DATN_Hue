@@ -31,7 +31,8 @@ nextTick(async () => {
 
 const handleOutsideClick = () => {
     const datepickerEl = document.querySelector(".dp__outer_menu_wrap");
-    if (datepickerEl) {
+    const dialog = document.querySelector(".swal2-popup");
+    if (datepickerEl || dialog) {
         return;
     }
     handleCloseModal();
