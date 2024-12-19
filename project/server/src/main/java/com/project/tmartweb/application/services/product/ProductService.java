@@ -3,6 +3,7 @@ package com.project.tmartweb.application.services.product;
 import com.project.tmartweb.application.repositories.OrderDetailRepository;
 import com.project.tmartweb.application.repositories.ProductRepository;
 import com.project.tmartweb.application.services.category.CategoryService;
+import com.project.tmartweb.config.exceptions.InvalidParamException;
 import com.project.tmartweb.config.exceptions.NotFoundException;
 import com.project.tmartweb.domain.dtos.ProductDTO;
 import com.project.tmartweb.domain.entities.Category;
@@ -99,9 +100,14 @@ public class ProductService implements IProductService {
         Product product = mapper.map(productDTO, Product.class);
         double salePrice = product.getSalePrice();
         double discount = 0;
+        double originPrice = product.getOriginPrice();
+        if (salePrice > originPrice) {
+            throw new InvalidParamException("Giá bán không thể lớn hơn giá gốc",
+                                            "Sale price must be less than or equal to origin price");
+        }
         if (salePrice > 0 && salePrice != product.getOriginPrice()) {
             discount = 100 - ((salePrice / product.getOriginPrice()) * 100);
-        } else if (salePrice == 0) {
+        } else if (salePrice == 0 && product.getOriginPrice() > 0) {
             product.setSalePrice(product.getOriginPrice());
         }
         product.setDiscount(Math.round(discount));
@@ -116,9 +122,14 @@ public class ProductService implements IProductService {
         mapper.map(productDTO, product);
         double salePrice = product.getSalePrice();
         double discount = 0;
-        if (salePrice > 0 && salePrice != product.getOriginPrice()) {
+        double originPrice = product.getOriginPrice();
+        if (salePrice > originPrice) {
+            throw new InvalidParamException("Giá bán không thể lớn hơn giá gốc",
+                                            "Sale price must be less than or equal to origin price");
+        }
+        if (salePrice > 0 && salePrice != originPrice) {
             discount = 100 - ((salePrice / product.getOriginPrice()) * 100);
-        } else if (salePrice == 0) {
+        } else if (salePrice == 0 && product.getOriginPrice() > 0) {
             product.setSalePrice(product.getOriginPrice());
         }
         product.setDiscount(Math.round(discount));
