@@ -95,7 +95,7 @@ export const useProductStore = defineStore('product', {
                 this.product = res;
                 if (res.status === 200) {
                     toastify('Cập nhật sản phẩm thành công', 'success');
-                    await this.fetchGetAll(0, 12);
+                    await this.fetchGetAll(0, 6);
                 }
             } catch (error) {
                 dialog('Cập nhật sản phẩm thất bại', 'error', error?.response?.data?.userMessage);
@@ -111,7 +111,7 @@ export const useProductStore = defineStore('product', {
                 const res = await productService.insert(data);
                 if (res.status === 201) {
                     dialog('Thêm sản phẩm thành công', 'success', null);
-                    await this.fetchGetAll(0, 12);
+                    await this.fetchGetAll(0, 6);
                     return res.data;
                 }
             } catch (error) {
@@ -127,7 +127,7 @@ export const useProductStore = defineStore('product', {
                 this.loading = true;
                 const res = await productService.uploadImage(id, data);
                 if (res.status === 200) {
-                    await this.fetchGetAll(0, 12);
+                    await this.fetchGetAll(0, 6);
                 }
             } catch (error) {
                 dialog('Thêm ảnh sản phẩm thất bại', 'error', error?.response?.data?.userMessage);

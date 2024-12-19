@@ -44,6 +44,7 @@ const handleEditProduct = (id) => {
 };
 
 const handleCloseModal = () => {
+    page.value = 1;
     showModal.value = false;
 };
 
