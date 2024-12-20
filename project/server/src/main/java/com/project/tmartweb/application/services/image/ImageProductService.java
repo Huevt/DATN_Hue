@@ -3,6 +3,7 @@ package com.project.tmartweb.application.services.image;
 import com.project.tmartweb.application.repositories.ImageProductRepository;
 import com.project.tmartweb.application.services.file.FileService;
 import com.project.tmartweb.application.services.product.IProductService;
+import com.project.tmartweb.config.exceptions.InvalidParamException;
 import com.project.tmartweb.domain.entities.ImageProduct;
 import com.project.tmartweb.domain.entities.Product;
 import lombok.RequiredArgsConstructor;
@@ -35,5 +36,23 @@ public class ImageProductService implements IImageProductService {
             imageProductRepository.save(imageProduct);
         }
         return "Upload images success";
+    }
+
+    @Override
+    public void delete(UUID id) {
+        ImageProduct imageProduct = imageProductRepository
+                .findById(id).
+                orElseThrow(() -> new InvalidParamException(
+                        "Hình ảnh sản phẩm đã được cập nhật bởi 1 người dùng khác",
+                        "Not found image"));
+
+        imageProductRepository.delete(imageProduct);
+    }
+
+    @Override
+    public void deleteMultiple(List<UUID> ids) {
+        for (UUID id : ids) {
+            this.delete(id);
+        }
     }
 }

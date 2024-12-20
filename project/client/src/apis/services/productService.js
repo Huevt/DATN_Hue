@@ -70,6 +70,11 @@ class productService extends baseService {
             });
         return res;
     }
+
+    async deleteImages(uuids) {
+        const res = await axios.delete('/products/delete-images', { data: uuids });
+        return res;
+    }
 }
 
 export default new productService();

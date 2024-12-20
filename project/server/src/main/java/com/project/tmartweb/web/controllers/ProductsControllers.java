@@ -116,4 +116,11 @@ public class ProductsControllers {
         iProductService.delete(product);
         return ResponseEntity.status(HttpStatus.OK).body("Delete success");
     }
+
+    @DeleteMapping("/delete-images")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<?> deleteImages(@RequestBody List<UUID> uuids) {
+        iImageProductService.deleteMultiple(uuids);
+        return ResponseEntity.status(HttpStatus.OK).body("OK");
+    }
 }

@@ -96,6 +96,7 @@ export const useProductStore = defineStore('product', {
                 if (res.status === 200) {
                     toastify('Cập nhật sản phẩm thành công', 'success');
                     await this.fetchGetAll(0, 6);
+                    return res.data;
                 }
             } catch (error) {
                 dialog('Cập nhật sản phẩm thất bại', 'error', error?.response?.data?.userMessage);
@@ -177,6 +178,18 @@ export const useProductStore = defineStore('product', {
             } catch (error) {
                 toastify('Lỗi tìm sản phẩm', 'error');
                 console.error(error);
+            } finally {
+                this.loading = false;
+            }
+        },
+
+        async fetchDeleteImages(uuids) {
+            try {
+                this.loading = true;
+                await productService.deleteImages(uuids);
+            } catch (error) {
+                console.error(error);
+                dialog('Lỗi cập nhật hình ảnh', 'error', error?.response?.data?.userMessage);
             } finally {
                 this.loading = false;
             }

@@ -100,7 +100,11 @@ const handleDeleteProduct = async (id) => {
                     <td>{{ item?.id }}</td>
                     <td style="text-align: center">
                         <img
-                            :src="item?.imageProducts[0]?.url"
+                            :src="
+                                item?.imageProducts[0]?.url
+                                    ? item?.imageProducts[0]?.url
+                                    : require('@/assets/imgs/TMart-logo.png')
+                            "
                             alt=""
                             style="width: 55px; height: 55px"
                         />

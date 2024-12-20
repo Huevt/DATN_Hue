@@ -142,3 +142,61 @@
     color: var(--color-grey);
     padding-top: 10px;
 }
+
+.product-images {
+    display: flex;
+    gap: 5px;
+}
+
+.product-images .product-images-item {
+    width: 18%;
+    position: relative;
+}
+
+.product-images .product-images-item > img {
+    width: 100%;
+    object-fit: cover;
+    border: 1px solid var(--color-border);
+}
+
+.product-images .product-images-item > .remove-image {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: #ccc;
+    border: none;
+    width: 18px;
+    height: 18px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    color: #333;
+    border-bottom-left-radius: 5px;
+}
+
+.product-images .product-images-item > .remove-image > i {
+    font-size: 10px;
+}
+
+.product-choose-images {
+    display: flex;
+    flex-direction: column;
+}
+
+.product-choose-images .btn-choose-img {
+    width: 100%;
+    border: 1px solid var(--color-border);
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.product-choose-images .btn-choose-img > span,
+.product-choose-images .btn-choose-img > i {
+    color: var(--color-grey);
+    font-weight: 500;
+}
+
+.product-choose-images .btn-choose-img > span {
+    padding-left: 5px;
+}

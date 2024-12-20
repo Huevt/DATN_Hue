@@ -10,4 +10,8 @@ public interface IImageProductService {
     List<ImageProduct> getByProductId(UUID productId);
 
     String uploadImages(UUID productId, List<MultipartFile> images);
+
+    void delete(UUID id);
+
+    void deleteMultiple(List<UUID> ids);
 }

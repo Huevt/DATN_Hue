@@ -3,6 +3,7 @@ import { dialog } from "@/helpers/swal";
 import { toastify } from "@/helpers/toastify";
 import { useCategoryStore } from "@/stores/category";
 import { useProductStore } from "@/stores/product";
+import _ from "lodash";
 import { defineEmits, nextTick, reactive, ref, defineProps, toRaw } from "vue";
 
 const props = defineProps({
@@ -15,9 +16,11 @@ const emits = defineEmits(["closeModal"]);
 const categoryStore = useCategoryStore();
 const categoriesData = ref([]);
 const productStore = useProductStore();
-const productImages = ref([]);
+const productImages = reactive([]);
+const idImagesRemove = ref([]);
 
 const isChangeImg = ref(false);
+const isRemoveImg = ref(false);
 
 const productData = reactive({
     title: null,
@@ -34,7 +37,6 @@ nextTick(async () => {
     categoriesData.value = categoryStore.categories.data;
     if (props.statusForm === "EDIT") {
         await productStore.fetchGetById(props.productId);
-        console.log(productStore.product);
         productData.title = productStore.product.title;
         productData.categoryId = productStore.product.category.id;
         productData.originPrice = productStore.product.originPrice;
@@ -43,8 +45,12 @@ nextTick(async () => {
         productData.description = productStore.product.description;
         productData.images = productStore.product.imageProducts;
         if (productStore.product.imageProducts) {
-            productImages.value = productStore.product.imageProducts.map(
-                (image) => image.url
+            productImages.push(
+                ...productStore.product.imageProducts.map((image) => ({
+                    id: image.id,
+                    url: image.url,
+                    isFromDb: true,
+                }))
             );
         }
     }
@@ -60,16 +66,24 @@ const handleCloseModal = () => {
 
 const changeImg = (event) => {
     let files = event.target.files;
-    let urlImages = productImages.value;
+    let urlImages = productImages.map((image) => image.url);
     if (urlImages.length + files.length > 5) {
         toastify("Chỉ chọn tối đa 5 ảnh", "warning");
         return;
     } else {
         for (let i = 0; i < files.length; i++) {
-            urlImages.push(URL.createObjectURL(files[i]));
+            const url = URL.createObjectURL(files[i]);
+            let id = _.uniqueId();
+            productImages.push({
+                id: id,
+                url: url,
+                isFromDb: false,
+            });
+            productData.images.push({
+                id: id,
+                file: files[i],
+            });
         }
-        productImages.value = urlImages;
-        productData.images = files;
         isChangeImg.value = true;
     }
 };
@@ -82,10 +96,10 @@ const handleSubmit = async () => {
     let formData = new FormData();
     if (productData.images) {
         for (let i = 0; i < productData.images.length; i++) {
-            formData.append("images", productData.images[i]);
+            formData.append("images", productData.images[i].file);
         }
     }
-    let res;
+    let res = null;
     if (props.statusForm === "ADD") {
         res = await productStore.fetchInsert(toRaw(productData));
     } else if (props.statusForm === "EDIT") {
@@ -94,10 +108,29 @@ const handleSubmit = async () => {
             toRaw(productData)
         );
     }
-    if (res && productData.images && isChangeImg.value) {
-        await productStore.fetchPostImage(res.id, formData);
+    if (res !== null && isChangeImg.value) {
+        await productStore.fetchPostImage(res?.id, formData);
+    }
+    if (isRemoveImg.value) {
+        await productStore.fetchDeleteImages(idImagesRemove.value);
     }
     emits("closeModal");
+};
+
+const removeImage = (id) => {
+    const index = productImages.findIndex((image) => image.id === id);
+    if (index !== -1) {
+        const removedImage = productImages.splice(index, 1)[0];
+
+        if (removedImage?.isFromDb) {
+            idImagesRemove.value.push(id);
+            isRemoveImg.value = true;
+        } else {
+            const filesArray = Array.from(productData.images);
+            filesArray.splice(index, 1);
+            productData.images = filesArray;
+        }
+    }
 };
 </script>
 
@@ -201,7 +234,7 @@ const handleSubmit = async () => {
                             required
                         ></textarea>
                     </div>
-                    <div class="form-item col-md-12">
+                    <div class="form-item product-choose-images col-md-12">
                         <label for="images" class="form-label"
                             >Ảnh sản phẩm</label
                         >
@@ -211,15 +244,27 @@ const handleSubmit = async () => {
                             type="file"
                             class="form-control"
                             id="images"
+                            style="display: none"
                         />
+                        <label for="images" class="form-label btn-choose-img">
+                            <i class="fa-regular fa-folder-open"></i>
+                            <span>Chọn ảnh</span>
+                        </label>
                     </div>
-                    <div class="form-item col-md-12">
-                        <img
-                            v-for="url in productImages"
-                            :key="url"
-                            :src="url"
-                            alt=""
-                        />
+                    <div class="form-item product-images col-md-12">
+                        <div
+                            class="product-images-item"
+                            v-for="image in productImages"
+                            :key="image.id"
+                        >
+                            <img :src="image.url" alt="" />
+                            <div
+                                class="remove-image"
+                                @click="removeImage(image.id)"
+                            >
+                                <i class="fa-solid fa-xmark"></i>
+                            </div>
+                        </div>
                     </div>
                     <div class="btn-submit col-12">
                         <button class="btn btn-primary" type="submit">
