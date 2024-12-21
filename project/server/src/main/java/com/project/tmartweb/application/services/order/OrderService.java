@@ -23,6 +23,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -326,5 +328,20 @@ public class OrderService implements IOrderService {
         }
         context.put("ORDER_TOTAL_NOT_DISCOUNT", decimalFormat.format(totalMoneyNotDiscount));
         emailService.sendTemplateMail(mailTo, subject, MailTemplate.SHIPPED, context);
+    }
+
+    @Override
+    public PaginationDTO<Order> getAllByFilter(Timestamp startDate,
+                                               Timestamp endDate,
+                                               OrderStatus status,
+                                               Integer page,
+                                               Integer perPage) {
+        if (startDate != null && endDate == null) {
+            endDate = new Timestamp(System.currentTimeMillis());
+        }
+        Page<Order> orders = orderRepository.findAllByFilter(
+                startDate, endDate, status, PageRequest.of(page, perPage));
+        BasePagination<Order, OrderRepository> pagination = new BasePagination<>();
+        return pagination.paginate(page, perPage, orders);
     }
 }

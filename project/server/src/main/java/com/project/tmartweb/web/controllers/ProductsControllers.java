@@ -43,6 +43,24 @@ public class ProductsControllers {
         return ResponseEntity.ok(res);
     }
 
+    @GetMapping("/filter")
+    public ResponseEntity<?> filterProducts(
+            @RequestParam(name = "keyword", required = false) String keyword,
+            @RequestParam(name = "page") int page,
+            @RequestParam(name = "perPage") int perPage,
+            @RequestParam(name = "discount", required = false) String discount,
+            @RequestParam(name = "title", required = false) String title,
+            @RequestParam(name = "price", required = false) String price,
+            @RequestParam(name = "categoryId", required = false) UUID categoryId,
+            @RequestParam(name = "isStock", required = false) boolean isStock,
+            @RequestParam(name = "productId", required = false) UUID productId
+    ) {
+        var res = iProductService.getAllByFilter(
+                keyword, title, discount, price, productId,
+                categoryId, isStock, page, perPage);
+        return ResponseEntity.ok(res);
+    }
+
     @GetMapping("/category/{id}")
     public ResponseEntity<?> getProductsByCategoryId(
             @PathVariable UUID id,

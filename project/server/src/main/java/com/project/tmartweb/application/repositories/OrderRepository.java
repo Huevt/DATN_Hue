@@ -3,11 +3,14 @@ package com.project.tmartweb.application.repositories;
 import com.project.tmartweb.application.responses.Statistical;
 import com.project.tmartweb.domain.entities.Order;
 import com.project.tmartweb.domain.enums.OrderStatus;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.UUID;
 
@@ -27,4 +30,14 @@ public interface OrderRepository extends JpaRepository<Order, UUID> {
             "WHERE EXTRACT(YEAR FROM o.createdAt) = :year AND o.status = 'SHIPPED'" +
             "GROUP BY EXTRACT(MONTH FROM o.createdAt)")
     List<Statistical> statistical(@Param("year") int year);
+
+    @Query("select o from Order o " +
+            "where (cast(:startDate as timestamp) is null or " +
+            "cast(:endDate as timestamp) is null or " +
+            "(o.createdAt >= :startDate and o.createdAt <= :endDate)) " +
+            "and (:status is null or o.status = :status)")
+    Page<Order> findAllByFilter(@Param("startDate") Timestamp startDate,
+                                @Param("endDate") Timestamp endDate,
+                                @Param("status") OrderStatus status,
+                                Pageable pageable);
 }

@@ -71,6 +71,16 @@ class productService extends baseService {
         return res;
     }
 
+    async filterProduct(keyword, page, perPage, discount, title, price, categoryId, isStock, productId) {
+        const res = await axios.get(`${this.endpoint}/filter`,
+            {
+                params: {
+                    keyword, page, perPage, discount, title, price, categoryId, isStock, productId
+                }
+            });
+        return res;
+    }
+
     async deleteImages(uuids) {
         const res = await axios.delete('/products/delete-images', { data: uuids });
         return res;

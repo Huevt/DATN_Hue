@@ -18,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.UUID;
 
@@ -119,5 +120,26 @@ public class OrdersController {
         String fileName = "bill_" + order.getCreatedAt().getTime() + ".pdf";
         response.setHeader("Content-Disposition", "filename=" + fileName);
         orderExportService.exportBillOrder(order, response);
+    }
+
+    @GetMapping("/filter")
+    @RoleAdmin
+    public ResponseEntity<?> filterOrders(
+            @RequestParam(name = "startDate", required = false) String startDate,
+            @RequestParam(name = "endDate", required = false) String endDate,
+            @RequestParam(name = "status", required = false) OrderStatus status,
+            @RequestParam(name = "page", required = false) Integer page,
+            @RequestParam(name = "perPage", required = false) Integer perPage
+    ) {
+        Timestamp start = null;
+        Timestamp end = null;
+        if (startDate != null) {
+            start = Timestamp.valueOf(startDate);
+        }
+        if (endDate != null) {
+            end = Timestamp.valueOf(endDate);
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(
+                orderService.getAllByFilter(start, end, status, page, perPage));
     }
 }

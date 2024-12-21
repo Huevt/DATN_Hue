@@ -17,16 +17,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -78,7 +73,7 @@ public class UsersController {
     public ResponseEntity<?> getByToken(@PathVariable String token) {
         var result = userService.getByToken(token);
         return ResponseEntity.status(HttpStatus.OK)
-                .body(result);
+                             .body(result);
     }
 
     @GetMapping("/username/{username}")
@@ -101,9 +96,9 @@ public class UsersController {
     public ResponseEntity<?> update(@PathVariable UUID id, @Valid @RequestBody UserDTO userDTO, BindingResult result) {
         if (result.hasErrors()) {
             List<String> errorMessages = result.getFieldErrors()
-                    .stream()
-                    .map(FieldError::getDefaultMessage)
-                    .toList();
+                                               .stream()
+                                               .map(FieldError::getDefaultMessage)
+                                               .toList();
             return ResponseEntity.badRequest().body(errorMessages);
         }
         return ResponseEntity.status(HttpStatus.OK).body(userService.update(id, userDTO));
@@ -118,7 +113,7 @@ public class UsersController {
     @PutMapping("/change-password/{id}")
     @RolesAdminUser
     public ResponseEntity<?> changePassword(@PathVariable UUID id,
-            @Valid @RequestBody UserChangePassword userChangePassword) {
+                                            @Valid @RequestBody UserChangePassword userChangePassword) {
         return ResponseEntity.status(HttpStatus.OK).body(userService.changePassword(id, userChangePassword));
     }
 
@@ -126,5 +121,24 @@ public class UsersController {
     @RolesAdminUser
     public ResponseEntity<?> editProfile(@PathVariable UUID id, @Valid @RequestBody UserEditProfileDTO userDTO) {
         return ResponseEntity.status(HttpStatus.OK).body(userService.editProfile(id, userDTO));
+    }
+
+    @GetMapping("/filter")
+    @RoleAdmin
+    public ResponseEntity<?> filterUsers(
+            @RequestParam(name = "fullName", required = false) String fullName,
+            @RequestParam(name = "userName", required = false) String userName,
+            @RequestParam(name = "dateOfBirth", required = false) String dateOfBirth,
+            @RequestParam(name = "roleId", required = false) RoleId roleId,
+            @RequestParam(name = "page", required = false) Integer page,
+            @RequestParam(name = "perPage", required = false) Integer perPage
+    ) {
+        Date birthday = null;
+        if (dateOfBirth != null) {
+            birthday = new Date(Timestamp.valueOf(dateOfBirth).getTime());
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(userService.getAllByFilter(
+                fullName, userName, birthday, roleId, page, perPage
+        ));
     }
 }

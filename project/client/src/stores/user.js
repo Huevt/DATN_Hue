@@ -25,7 +25,6 @@ export const useUserStore = defineStore('user', {
                 this.isLoading = true;
                 const res = await userSerive.getAll(page, perPage);
                 if (res.status === 200) {
-                    console.log(res);
                     this.usersData = res.data.data;
                     this.pagination = res.data.pagination;
                 }
@@ -155,6 +154,22 @@ export const useUserStore = defineStore('user', {
                 }
             } catch (error) {
                 dialog('Thêm tài khoản thất bại', 'error');
+                console.error(error);
+            } finally {
+                this.isLoading = false;
+            }
+        },
+
+        async fetchFilterUser(fullName, userName, dateOfBirth, roleId, page, perPage) {
+            try {
+                this.isLoading = true;
+                const res = await userSerive.getAllByFilter(fullName, userName, dateOfBirth, roleId, page, perPage);
+                if (res.status === 200) {
+                    this.usersData = res.data.data;
+                    this.pagination = res.data.pagination;
+                }
+            } catch (error) {
+                toastify('Lỗi khi lấy danh sách người dùng', 'error');
                 console.error(error);
             } finally {
                 this.isLoading = false;

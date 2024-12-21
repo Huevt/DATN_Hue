@@ -38,6 +38,19 @@ class orderService extends baseService {
         });
         return res;
     }
+
+    async getAllByFilter(startDate, endDate, status, page, perPage) {
+        const res = await axios.get(`${this.endpoint}/filter`, {
+            params: {
+                startDate: startDate,
+                endDate: endDate,
+                status: status,
+                page: page,
+                perPage: perPage
+            }
+        });
+        return res;
+    }
 }
 
 export default new orderService();

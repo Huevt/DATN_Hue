@@ -7,8 +7,10 @@ import com.project.tmartweb.domain.dtos.OrderDTO;
 import com.project.tmartweb.domain.entities.Cart;
 import com.project.tmartweb.domain.entities.Order;
 import com.project.tmartweb.domain.enums.OrderStatus;
+import com.project.tmartweb.domain.paginate.PaginationDTO;
 import jakarta.servlet.http.HttpServletRequest;
 
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.UUID;
 
@@ -28,4 +30,12 @@ public interface IOrderService extends IBaseService<Order, OrderDTO, UUID> {
     void sendMailCreateOrder(Order order);
 
     void sendMailShippedOrder(Order order);
+
+    PaginationDTO<Order> getAllByFilter(
+            Timestamp startDate,
+            Timestamp endDate,
+            OrderStatus status,
+            Integer page,
+            Integer perPage
+    );
 }

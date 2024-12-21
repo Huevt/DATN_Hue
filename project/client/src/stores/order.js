@@ -210,6 +210,22 @@ export const useOrderStore = defineStore('order', {
             } finally {
                 this.loadingOrder = false;
             }
+        },
+
+        async fetchFilterOrders(startDate, endDate, status, page, perPage) {
+            try {
+                this.loadingOrder = true;
+                const res = await orderService.getAllByFilter(startDate, endDate, status, page, perPage);
+                if (res.status === 200) {
+                    this.orderList = res.data.data;
+                    this.pagination = res.data.pagination;
+                }
+            } catch (error) {
+                toastify('Lỗi khi lấy danh sách đơn hàng', 'error');
+                console.error(error);
+            } finally {
+                this.loadingOrder = false;
+            }
         }
     },
 })

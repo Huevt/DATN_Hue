@@ -4,6 +4,7 @@ import { storeToRefs } from "pinia";
 import { useOrderStore } from "@/stores/order";
 import { dialog, dialogConfirm } from "@/helpers/swal";
 import OrderModal from "./OrderModal.vue";
+import formatValue from "@/helpers/formatValue";
 
 const orderStore = useOrderStore();
 const { loadingOrder, orderList, pagination } = storeToRefs(orderStore);
@@ -12,6 +13,10 @@ const page = ref(1);
 const perPage = ref(12);
 const showModal = ref(false);
 const orderId = ref(null);
+
+const startDate = ref(null);
+const endDate = ref(null);
+const statusSearch = ref("");
 
 nextTick(async () => {
     await orderStore.fetchGetAllOrder(page.value - 1, perPage.value);
@@ -75,6 +80,25 @@ const handleCancelOrder = async (item) => {
         );
     });
 };
+
+const filterOrder = async () => {
+    if (startDate.value !== null || startDate.value !== "") {
+        startDate.value = formatValue.formatTimestamp(startDate.value, false);
+    }
+    if (endDate.value !== null || endDate.value !== "") {
+        endDate.value = formatValue.formatTimestamp(endDate.value, false);
+    }
+    console.log(startDate.value, endDate.value, statusSearch.value);
+
+    await orderStore.fetchFilterOrders(
+        startDate.value,
+        endDate.value,
+        statusSearch.value,
+        page.value - 1,
+        perPage.value
+    );
+    totalPage.value = pagination.value.lastPage + 1;
+};
 </script>
 
 <template>
@@ -84,6 +108,41 @@ const handleCancelOrder = async (item) => {
     <div class="admin-table">
         <div class="admin-header">
             <h1>Quản lý đơn hàng</h1>
+            <div class="btn-group btn-group-filter">
+                <div class="btn-search">
+                    <select
+                        v-model="statusSearch"
+                        class="form-select"
+                        id="statusSearch"
+                    >
+                        <option value="" selected>Trạng thái</option>
+                        <option value="PENDING">Chờ xác nhận</option>
+                        <option value="PROCESSED">Đã xác nhận</option>
+                        <option value="SHIPPING">Đang giao hàng</option>
+                        <option value="SHIPPED">Đã giao hàng</option>
+                        <option value="PAID">Đã thanh toán</option>
+                        <option value="UNPAID">Chưa thanh toán</option>
+                        <option value="CANCELLED">Đã hủy</option>
+                    </select>
+                    <b-datepicker
+                        id="startDate"
+                        v-model="startDate"
+                        :timePicker="true"
+                        placeholder="Từ ngày"
+                    />
+                    <b-datepicker
+                        id="endDate"
+                        v-model="endDate"
+                        :timePicker="true"
+                        placeholder="Đến ngày"
+                    />
+                    <div class="btn-search-button">
+                        <b-button @click="filterOrder" type="secondary">
+                            Tìm kiếm
+                        </b-button>
+                    </div>
+                </div>
+            </div>
         </div>
         <table class="table table-bordered border-primary">
             <thead>

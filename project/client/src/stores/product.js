@@ -185,6 +185,26 @@ export const useProductStore = defineStore('product', {
             }
         },
 
+        async fetchFilterProduct(
+            keyword, page, perPage, discount,
+            title, price, categoryId, isStock, productId) {
+            try {
+                this.loading = true;
+                const res = await productService.filterProduct(
+                    keyword, page, perPage, discount,
+                    title, price, categoryId, isStock, productId);
+                if (res.status === 200) {
+                    this.products = res.data;
+                    this.pagination = res.data.pagination;
+                }
+            } catch (error) {
+                toastify('Lỗi tìm sản phẩm', 'error');
+                console.error(error);
+            } finally {
+                this.loading = false;
+            }
+        },
+
         async fetchDeleteImages(uuids) {
             try {
                 this.loading = true;

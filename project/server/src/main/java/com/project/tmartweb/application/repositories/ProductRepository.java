@@ -33,6 +33,23 @@ public interface ProductRepository extends JpaRepository<Product, UUID> {
             "CASE WHEN :price = 'desc' THEN p.salePrice END DESC NULLS LAST ")
     Page<Product> findAllBySearch(String keyword, String feedback, String price, Pageable pageable);
 
+    @Query("select p from Product p left join Feedback f on p.id = f.product.id " +
+            "where p.deleted = false " +
+            "and (lower(p.title) like lower(concat('%', :keyword, '%')) or :keyword is null) " +
+            "and (:categoryId is null or p.category.id = :categoryId) " +
+            "and (:isStock = false or p.quantity > 0) " +
+            "and (:productId is null or p.id = :productId) " +
+            "group by p.id " +
+            "order by CASE WHEN :title = 'asc' THEN p.title END ASC, " +
+            "CASE WHEN :title = 'desc' THEN p.title END DESC NULLS LAST, " +
+            "CASE WHEN :discount = 'asc' THEN p.discount END ASC, " +
+            "CASE WHEN :discount = 'desc' THEN p.discount END DESC NULLS LAST, " +
+            "CASE WHEN :price = 'asc' THEN p.salePrice END ASC, " +
+            "CASE WHEN :price = 'desc' THEN p.salePrice END DESC NULLS LAST ")
+    Page<Product> findAllByFilter(String keyword, String title, String discount, String price,
+                                  UUID productId, UUID categoryId, boolean isStock,
+                                  Pageable pageable);
+
     @Query("select pr " +
             "from Product pr inner join OrderDetail od on pr.id = od.product.id " +
             "where pr.deleted = false group by pr.id order by count(od.id) desc")

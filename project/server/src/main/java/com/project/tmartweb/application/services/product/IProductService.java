@@ -22,4 +22,10 @@ public interface IProductService
     PaginationDTO<Product> getAllBySearch(
             String keyword, String direction, String price,
             Integer page, Integer perPage);
+
+    PaginationDTO<Product> getAllByFilter(
+            String keyword, String title, String discount, String price,
+            UUID productId, UUID categoryId, boolean isStock,
+            Integer page, Integer perPage
+    );
 }

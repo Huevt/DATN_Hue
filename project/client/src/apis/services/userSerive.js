@@ -27,6 +27,20 @@ class userService extends baseService {
         const res = await axios.put(`${this.endpoint}/change-password/${id}`, data);
         return res;
     }
+
+    async getAllByFilter(fullName, userName, dateOfBirth, roleId, page, perPage) {
+        const res = await axios.get(`${this.endpoint}/filter`, {
+            params: {
+                fullName: fullName,
+                userName: userName,
+                dateOfBirth: dateOfBirth,
+                roleId: roleId,
+                page: page,
+                perPage: perPage
+            }
+        });
+        return res;
+    }
 }
 
 export default new userService();

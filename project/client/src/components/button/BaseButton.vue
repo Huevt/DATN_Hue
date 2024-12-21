@@ -1,56 +1,63 @@
 <template>
-    <button :style="'color:' + props.color" ref="refBtn"
-        :class="[btnType(props.type), { 'focus-visible': focusVisible }]">
-        <i v-if="icon != null" :class="[icon]" :style="'color:' + props.color"></i>
+    <button
+        :style="'color:' + props.color"
+        ref="refBtn"
+        :class="[btnType(props.type), { 'focus-visible': focusVisible }]"
+    >
+        <i
+            v-if="icon != null"
+            :class="[icon]"
+            :style="'color:' + props.color"
+        ></i>
         {{ props.value }}
         <slot></slot>
     </button>
 </template>
 
 <script setup>
-import { ref, defineProps, defineExpose } from 'vue';
+import { ref, defineProps, defineExpose } from "vue";
 const props = defineProps({
     value: {
         type: String,
-        default: null
+        default: null,
     },
     type: {
         type: String,
-        default: null
+        default: null,
     },
     icon: {
         type: String,
-        default: null
+        default: null,
     },
     tooltip: {
         type: String,
-        default: null
+        default: null,
     },
-    color: {}
-})
+    color: {},
+});
 
 // Khai báo biến
 const refBtn = ref(null);
-const focusVisible = ref(false)
+const focusVisible = ref(false);
 
 const btnType = (type) => {
     switch (type) {
-        case 'secondary':
-            return 'btn-secondary';
-        case 'primary':
-            return 'btn-primary';
+        case "secondary":
+            return "btn-secondary";
+        case "primary":
+            return "btn-primary";
     }
-}
+};
 
 // ---------------------- Hàm xử lý ----------------------------
 
 const focus = (visible = true) => {
     refBtn.value.focus();
     focusVisible.value = visible;
-}
+};
 
 defineExpose({
-    focus
+    focus,
 });
 </script>
 
@@ -72,7 +79,7 @@ button {
     line-height: 0;
 }
 
-button>i {
+button > i {
     font-size: 15px;
 }
 

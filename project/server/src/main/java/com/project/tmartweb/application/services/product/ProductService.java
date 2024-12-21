@@ -95,6 +95,25 @@ public class ProductService implements IProductService {
     }
 
     @Override
+    public PaginationDTO<Product> getAllByFilter(
+            String keyword,
+            String title,
+            String discount,
+            String price,
+            UUID productId,
+            UUID categoryId,
+            boolean isStock,
+            Integer page,
+            Integer perPage) {
+        Page<Product> products = productRepository.findAllByFilter(
+                keyword, title, discount, price,
+                productId, categoryId, isStock,
+                PageRequest.of(page, perPage));
+        BasePagination<Product, ProductRepository> pagination = new BasePagination<>();
+        return pagination.paginate(page, perPage, products);
+    }
+
+    @Override
     public Product insert(ProductDTO productDTO) {
         Category category = categoryService.getById(productDTO.getCategoryId());
         Product product = mapper.map(productDTO, Product.class);

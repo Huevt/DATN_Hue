@@ -14,6 +14,7 @@ import com.project.tmartweb.domain.dtos.*;
 import com.project.tmartweb.domain.entities.Role;
 import com.project.tmartweb.domain.entities.Token;
 import com.project.tmartweb.domain.entities.User;
+import com.project.tmartweb.domain.enums.RoleId;
 import com.project.tmartweb.domain.paginate.BasePagination;
 import com.project.tmartweb.domain.paginate.PaginationDTO;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +28,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Date;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -69,7 +71,8 @@ public class UserService implements IUserService {
 
     @Override
     public User getByUserName(String userName) {
-        return userRepository.findByUserName(userName).orElseThrow(() -> new NotFoundException("Người dùng không tồn tại", "User not found"));
+        return userRepository.findByUserName(userName)
+                             .orElseThrow(() -> new NotFoundException("Người dùng không tồn tại", "User not found"));
     }
 
     @Override
@@ -105,6 +108,20 @@ public class UserService implements IUserService {
         user.setPassword(passwordEncoder.encode(userChangePassword.getNewPassword()));
         userRepository.save(user);
         return "Cập nhật mật khẩu thành công!";
+    }
+
+    @Override
+    public PaginationDTO<User> getAllByFilter(String fullName,
+                                              String userName,
+                                              Date dateOfBirth,
+                                              RoleId roleId,
+                                              Integer page,
+                                              Integer perPage) {
+        Page<User> users = userRepository.
+                findAllByFilter(fullName, userName, dateOfBirth,
+                                roleId, PageRequest.of(page, perPage));
+        BasePagination<User, UserRepository> pagination = new BasePagination<>();
+        return pagination.paginate(page, perPage, users);
     }
 
     @Override
@@ -156,8 +173,8 @@ public class UserService implements IUserService {
     public PaginationDTO<User> getAll(Integer page, Integer perPage) {
         if (page == null && perPage == null) {
             return new PaginationDTO<>(userRepository
-                    .findAllByDeleted(false, Sort.by("createdAt")
-                            .descending()), null);
+                                               .findAllByDeleted(false, Sort.by("createdAt")
+                                                                            .descending()), null);
         }
         BasePagination<User, UserRepository> pagination = new BasePagination<>();
         Page<User> users = userRepository

@@ -21,6 +21,7 @@
 .admin-table .admin-header .btn-group {
     display: flex;
     gap: 10px;
+    width: 100%;
 }
 
 .admin-table .admin-header .btn-group > button {
@@ -156,4 +157,49 @@
 .table-product {
     max-height: 480px;
     overflow-y: scroll;
+}
+
+.th-sort {
+    cursor: pointer;
+    user-select: none;
+}
+
+.btn-group-filter {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+}
+.btn-group-filter .btn-add {
+    width: 20%;
+}
+.btn-search {
+    display: flex;
+    gap: 10px;
+    width: 80%;
+    align-items: center;
+}
+
+.btn-search .check-is-stock {
+    display: flex;
+    align-items: center;
+    width: fit-content;
+}
+
+.btn-search .check-is-stock > label {
+    display: block;
+    text-wrap: unset;
+    width: 60px;
+}
+
+.btn-search > input {
+    padding: 5px 10px;
+}
+.btn-search .btn-search-button {
+    width: 60%;
+}
+.btn-search .btn-search-button > button {
+    display: block;
+    padding: 5px 10px;
+    width: 100%;
 }
