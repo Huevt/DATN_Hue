@@ -29,7 +29,7 @@ const productData = reactive({
     quantity: 1,
     salePrice: 0,
     description: null,
-    images: null,
+    images: [],
 });
 
 nextTick(async () => {
