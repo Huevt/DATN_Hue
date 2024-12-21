@@ -1,7 +1,7 @@
 <script setup>
-import { ref, reactive, nextTick } from 'vue';
-import { useOrderStore } from '@/stores/order';
-import { storeToRefs } from 'pinia';
+import { ref, reactive, nextTick } from "vue";
+import { useOrderStore } from "@/stores/order";
+import { storeToRefs } from "pinia";
 
 import {
     Chart as ChartJS,
@@ -11,9 +11,9 @@ import {
     LineElement,
     Title,
     Tooltip,
-    Legend
-} from 'chart.js'
-import { Line } from 'vue-chartjs'
+    Legend,
+} from "chart.js";
+import { Line } from "vue-chartjs";
 ChartJS.register(
     CategoryScale,
     LinearScale,
@@ -22,21 +22,34 @@ ChartJS.register(
     Title,
     Tooltip,
     Legend
-)
+);
 const chartData = reactive({
-    labels: ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6', 'Tháng 7', 'Tháng 8', 'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12'],
+    labels: [
+        "Tháng 1",
+        "Tháng 2",
+        "Tháng 3",
+        "Tháng 4",
+        "Tháng 5",
+        "Tháng 6",
+        "Tháng 7",
+        "Tháng 8",
+        "Tháng 9",
+        "Tháng 10",
+        "Tháng 11",
+        "Tháng 12",
+    ],
     datasets: [
         {
-            label: 'Doanh thu',
-            backgroundColor: '#006fff',
-            data: []
-        }
-    ]
-})
+            label: "Doanh thu",
+            backgroundColor: "#006fff",
+            data: [],
+        },
+    ],
+});
 
 const chartOptions = ref({
-    responsive: true
-})
+    responsive: true,
+});
 
 const orderStore = useOrderStore();
 const { loadingOrder, statistical } = storeToRefs(orderStore);
@@ -46,16 +59,19 @@ nextTick(async () => {
     year.value = new Date().getFullYear();
     await orderStore.fetchStatisticOrder(year.value);
     for (let i = 0; i < statistical.value.length; i++) {
-        chartData.datasets[0].data[i] = statistical.value[i].totalMoney
+        chartData.datasets[0].data[i] = statistical.value[i].totalMoney;
     }
-})
+});
 </script>
 
 <template>
     <div class="loading" v-if="loadingOrder">
         <spinner-loader />
     </div>
-    <div class="chart-container">
+    <div
+        class="chart-container"
+        v-if="!loadingOrder && chartData.datasets[0].data.length > 0"
+    >
         <h3>Thống kê doanh thu</h3>
         <Line id="my-chart-id" :options="chartOptions" :data="chartData" />
     </div>
