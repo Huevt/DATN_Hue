@@ -30,16 +30,15 @@ public interface ProductRepository extends JpaRepository<Product, UUID> {
             "order by CASE WHEN :feedback = 'asc' THEN COALESCE(avg(f.star), 0) END ASC, " +
             "CASE WHEN :feedback = 'desc' THEN COALESCE(avg(f.star), 0) END DESC NULLS LAST, " +
             "CASE WHEN :price = 'asc' THEN p.salePrice END ASC, " +
-            "CASE WHEN :price = 'desc' THEN p.salePrice END DESC NULLS LAST ")
+            "CASE WHEN :price = 'desc' THEN p.salePrice END DESC ")
     Page<Product> findAllBySearch(String keyword, String feedback, String price, Pageable pageable);
 
-    @Query("select p from Product p left join Feedback f on p.id = f.product.id " +
+    @Query("select p from Product p " +
             "where p.deleted = false " +
             "and (lower(p.title) like lower(concat('%', :keyword, '%')) or :keyword is null) " +
             "and (:categoryId is null or p.category.id = :categoryId) " +
             "and (:isStock = false or p.quantity > 0) " +
             "and (:productId is null or p.id = :productId) " +
-            "group by p.id " +
             "order by CASE WHEN :title = 'asc' THEN p.title END ASC, " +
             "CASE WHEN :title = 'desc' THEN p.title END DESC NULLS LAST, " +
             "CASE WHEN :discount = 'asc' THEN p.discount END ASC, " +

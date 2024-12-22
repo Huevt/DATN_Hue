@@ -28,12 +28,15 @@ public interface UserRepository extends JpaRepository<User, UUID> {
 
     Page<User> findAllByDeleted(Boolean deleted, Pageable pageable);
 
-    @Query("SELECT u from User u " +
-            "WHERE (:fullName is null or :fullName = '' or u.fullName ILIKE :fullName) " +
-            "and (:userName is null or :userName = '' or u.userName like :userName " +
-            "or u.phoneNumber like :userName or u.email like :userName) " +
-            "and (coalesce(:dateOfBirth, u.dateOfBirth) = u.dateOfBirth) " +
-            "and (:roleId is null or :roleId = '' or u.role.id = :roleId)")
+    @Query("SELECT u FROM User u " +
+            "WHERE (:fullName IS NULL OR :fullName = '' " +
+            "OR u.fullName ILIKE concat(:fullName, ' %') " +
+            "OR u.fullName ILIKE concat('% ', :fullName, ' %') " +
+            "OR u.fullName ILIKE concat('% ', :fullName)) " +
+            "AND (:userName IS NULL OR :userName = '' OR u.userName LIKE :userName " +
+            "OR u.phoneNumber LIKE :userName OR u.email LIKE :userName) " +
+            "AND (COALESCE(:dateOfBirth, u.dateOfBirth) = u.dateOfBirth) " +
+            "AND (:roleId IS NULL OR :roleId = '' OR u.role.id = :roleId)")
     Page<User> findAllByFilter(String fullName,
                                String userName,
                                @Param("dateOfBirth") Date dateOfBirth,

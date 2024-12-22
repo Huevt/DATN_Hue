@@ -102,8 +102,8 @@ const filterProduct = async () => {
         page.value - 1,
         perPage.value,
         discount.value,
-        price.value,
         title.value,
+        price.value,
         categoryId.value,
         isStock.value,
         productIdSearch.value
@@ -123,6 +123,10 @@ const sortBy = (column) => {
             title.value = null;
             titleSort.value = 0;
         }
+        price.value = null;
+        priceSort.value = 0;
+        discount.value = null;
+        discountSort.value = 0;
     }
     if (column === "salePrice") {
         if (priceSort.value === 0) {
@@ -135,6 +139,10 @@ const sortBy = (column) => {
             price.value = null;
             priceSort.value = 0;
         }
+        title.value = null;
+        titleSort.value = 0;
+        discount.value = null;
+        discountSort.value = 0;
     }
     if (column === "discount") {
         if (discountSort.value === 0) {
@@ -147,6 +155,10 @@ const sortBy = (column) => {
             discount.value = null;
             discountSort.value = 0;
         }
+        title.value = null;
+        titleSort.value = 0;
+        price.value = null;
+        priceSort.value = 0;
     }
 };
 </script>
