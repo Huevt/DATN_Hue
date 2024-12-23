@@ -36,7 +36,8 @@ public interface UserRepository extends JpaRepository<User, UUID> {
             "AND (:userName IS NULL OR :userName = '' OR u.userName LIKE :userName " +
             "OR u.phoneNumber LIKE :userName OR u.email LIKE :userName) " +
             "AND (COALESCE(:dateOfBirth, u.dateOfBirth) = u.dateOfBirth) " +
-            "AND (:roleId IS NULL OR :roleId = '' OR u.role.id = :roleId)")
+            "AND (:roleId IS NULL OR :roleId = '' OR u.role.id = :roleId) " +
+            "ORDER BY u.createdAt DESC")
     Page<User> findAllByFilter(String fullName,
                                String userName,
                                @Param("dateOfBirth") Date dateOfBirth,

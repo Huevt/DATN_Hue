@@ -35,7 +35,8 @@ public interface OrderRepository extends JpaRepository<Order, UUID> {
             "where (cast(:startDate as timestamp) is null or " +
             "cast(:endDate as timestamp) is null or " +
             "(o.createdAt >= :startDate and o.createdAt <= :endDate)) " +
-            "and (:status is null or o.status = :status)")
+            "and (:status is null or o.status = :status) " +
+            "order by o.createdAt desc")
     Page<Order> findAllByFilter(@Param("startDate") Timestamp startDate,
                                 @Param("endDate") Timestamp endDate,
                                 @Param("status") OrderStatus status,

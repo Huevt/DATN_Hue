@@ -44,7 +44,8 @@ public interface ProductRepository extends JpaRepository<Product, String> {
             "CASE WHEN :discount = 'asc' THEN p.discount END ASC, " +
             "CASE WHEN :discount = 'desc' THEN p.discount END DESC NULLS LAST, " +
             "CASE WHEN :price = 'asc' THEN p.salePrice END ASC, " +
-            "CASE WHEN :price = 'desc' THEN p.salePrice END DESC NULLS LAST ")
+            "CASE WHEN :price = 'desc' THEN p.salePrice END DESC NULLS LAST," +
+            "p.createdAt DESC")
     Page<Product> findAllByFilter(String keyword, String title, String discount, String price,
                                   String productId, UUID categoryId, boolean isStock,
                                   Pageable pageable);
