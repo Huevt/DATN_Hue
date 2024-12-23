@@ -23,5 +23,5 @@ public class OrderDetailDTO {
 
     private UUID orderId;
 
-    private UUID productId;
+    private String productId;
 }

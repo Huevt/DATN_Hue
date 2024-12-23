@@ -9,6 +9,7 @@ import com.project.tmartweb.domain.dtos.ProductDTO;
 import com.project.tmartweb.domain.entities.Category;
 import com.project.tmartweb.domain.entities.OrderDetail;
 import com.project.tmartweb.domain.entities.Product;
+import com.project.tmartweb.domain.entities.ProductIdGenerator;
 import com.project.tmartweb.domain.paginate.BasePagination;
 import com.project.tmartweb.domain.paginate.Pagination;
 import com.project.tmartweb.domain.paginate.PaginationDTO;
@@ -30,6 +31,7 @@ public class ProductService implements IProductService {
     private final CategoryService categoryService;
     private final OrderDetailRepository orderDetailRepository;
     private final ModelMapper mapper;
+    private final ProductIdGenerator productIdGenerator;
 
     @Override
     public PaginationDTO<Product> getAllProductsByCategory(UUID categoryId, Integer page, Integer perPage) {
@@ -100,7 +102,7 @@ public class ProductService implements IProductService {
             String title,
             String discount,
             String price,
-            UUID productId,
+            String productId,
             UUID categoryId,
             boolean isStock,
             Integer page,
@@ -129,13 +131,14 @@ public class ProductService implements IProductService {
         } else if (salePrice == 0 && product.getOriginPrice() > 0) {
             product.setSalePrice(product.getOriginPrice());
         }
+        product.setId(productIdGenerator.generateNextId());
         product.setDiscount(Math.round(discount));
         product.setCategory(category);
         return productRepository.save(product);
     }
 
     @Override
-    public Product update(UUID id, ProductDTO productDTO) {
+    public Product update(String id, ProductDTO productDTO) {
         Product product = getById(id);
         Category category = categoryService.getById(productDTO.getCategoryId());
         mapper.map(productDTO, product);
@@ -184,12 +187,12 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public Optional<Product> findById(UUID id) {
+    public Optional<Product> findById(String id) {
         return productRepository.findById(id);
     }
 
     @Override
-    public Product getById(UUID id) {
+    public Product getById(String id) {
         Product product = findById(id).orElseThrow(() -> new NotFoundException("Product not found"));
         setSoldQuantity(List.of(product));
         return product;
@@ -207,7 +210,7 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public int deleteMultiple(List<UUID> ids) {
+    public int deleteMultiple(List<String> ids) {
         return 0;
     }
 

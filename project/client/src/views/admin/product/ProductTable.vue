@@ -12,7 +12,7 @@ const categoryStore = useCategoryStore();
 const { loading } = storeToRefs(productStore);
 const { categories } = storeToRefs(categoryStore);
 const page = ref(1);
-const perPage = ref(8);
+const perPage = ref(6);
 const totalPage = ref(0);
 const productsData = ref([]);
 const statusForm = ref("ADD");
@@ -86,8 +86,7 @@ const handleDeleteProduct = async (id) => {
 
 const filterProduct = async () => {
     if (productIdSearch.value) {
-        const uuidRegex =
-            /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+        const uuidRegex = /^PRODUCT-\d+$/;
         if (!uuidRegex.test(productIdSearch.value)) {
             dialog(
                 "Lỗi",

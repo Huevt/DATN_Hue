@@ -17,5 +17,5 @@ public interface CartRepository extends JpaRepository<Cart, UUID> {
 
     List<Cart> findAllByUser_Id(UUID userId, Sort sort);
 
-    Optional<Cart> findByProductId(UUID productId);
+    Optional<Cart> findByProductId(String productId);
 }

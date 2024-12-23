@@ -20,7 +20,7 @@ public class CartDTO {
 
     private UUID userId;
 
-    private UUID productId;
+    private String productId;
 
     private String classify;
 }

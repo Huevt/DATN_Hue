@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Repository
-public interface ProductRepository extends JpaRepository<Product, UUID> {
+public interface ProductRepository extends JpaRepository<Product, String> {
     boolean existsByTitle(String title);
 
     Page<Product> findAllByCategory_IdAndDeleted(UUID id, boolean deleted, Pageable pageable);
@@ -46,7 +46,7 @@ public interface ProductRepository extends JpaRepository<Product, UUID> {
             "CASE WHEN :price = 'asc' THEN p.salePrice END ASC, " +
             "CASE WHEN :price = 'desc' THEN p.salePrice END DESC NULLS LAST ")
     Page<Product> findAllByFilter(String keyword, String title, String discount, String price,
-                                  UUID productId, UUID categoryId, boolean isStock,
+                                  String productId, UUID categoryId, boolean isStock,
                                   Pageable pageable);
 
     @Query("select pr " +

@@ -80,10 +80,19 @@ const handleLogout = () => {
 </template>
 
 <style lang="css" scoped>
+.admin-page {
+    height: 100%;
+}
 .admin-page .sidebar {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    min-height: 100vh;
+    width: var(--width-sidebar);
+    background-color: var(--color-primary);
+    max-height: 100%;
+    padding: 20px 0;
+    padding-bottom: 5px;
 }
 
 .admin-page .sidebar .logo > a {
@@ -112,16 +121,9 @@ const handleLogout = () => {
 
 .admin-page section {
     width: calc(100% - var(--width-sidebar));
+    height: 100%;
     padding: 20px 10px;
     position: relative;
-}
-
-.admin-page .sidebar {
-    width: var(--width-sidebar);
-    background-color: var(--color-primary);
-    height: 100vh;
-    padding: 20px 0;
-    padding-bottom: 5px;
 }
 
 .admin-page .sidebar ul {

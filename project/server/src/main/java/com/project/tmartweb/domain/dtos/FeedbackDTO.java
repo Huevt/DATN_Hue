@@ -24,5 +24,5 @@ public class FeedbackDTO {
 
     private UUID userId;
 
-    private UUID productId;
+    private String productId;
 }

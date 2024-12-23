@@ -75,12 +75,12 @@ public class FeedbackService implements IFeedbackService {
     }
 
     @Override
-    public PaginationDTO<Feedback> getAllByProduct(UUID id, Integer page, Integer perPage, Integer star) {
+    public PaginationDTO<Feedback> getAllByProduct(String id, Integer page, Integer perPage, Integer star) {
         if (page == null || perPage == null) {
             return new PaginationDTO<>(feedbackRepository.findAllByProductId(id, star), null);
         }
         Page<Feedback> feedbacks = feedbackRepository.findAllByProductId(id,
-                PageRequest.of(page, perPage), star);
+                                                                         PageRequest.of(page, perPage), star);
         return basePagination.paginate(page, perPage, feedbacks);
     }
 

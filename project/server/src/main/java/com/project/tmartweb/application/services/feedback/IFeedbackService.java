@@ -10,5 +10,5 @@ import java.util.UUID;
 
 public interface IFeedbackService extends IBaseService<Feedback, FeedbackDTO, UUID>,
         IBaseServiceMultiple<Feedback, FeedbackDTO, UUID> {
-    PaginationDTO<Feedback> getAllByProduct(UUID id, Integer page, Integer perPage, Integer star);
+    PaginationDTO<Feedback> getAllByProduct(String id, Integer page, Integer perPage, Integer star);
 }

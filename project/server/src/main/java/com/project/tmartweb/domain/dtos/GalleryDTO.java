@@ -6,8 +6,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.UUID;
-
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -15,5 +13,5 @@ import java.util.UUID;
 public class GalleryDTO {
     private MultipartFile image;
 
-    private UUID productId;
+    private String productId;
 }

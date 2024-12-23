@@ -31,7 +31,7 @@ public class FeedbacksController {
 
     @GetMapping("/product/{id}")
     public ResponseEntity<?> getAllFeedbacksByProduct(
-            @PathVariable("id") UUID id,
+            @PathVariable("id") String id,
             @RequestParam(required = false) Integer page,
             @RequestParam(required = false) Integer perPage,
             @RequestParam(required = false) Integer star

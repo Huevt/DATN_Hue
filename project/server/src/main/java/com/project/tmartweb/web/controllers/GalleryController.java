@@ -28,7 +28,7 @@ public class GalleryController {
 
     @PostMapping("")
     public ResponseEntity<?> insertGallery(
-            @RequestParam("productId") UUID productId,
+            @RequestParam("productId") String productId,
             @RequestPart("image") MultipartFile image
     ) {
         var res = galleryService.insert(productId, image);
@@ -38,7 +38,7 @@ public class GalleryController {
     @PutMapping("/{id}")
     public ResponseEntity<?> updateGallery(
             @PathVariable UUID id,
-            @RequestParam("productId") UUID productId,
+            @RequestParam("productId") String productId,
             @RequestPart("image") MultipartFile image
     ) {
         var res = galleryService.update(id, productId, image);

@@ -16,8 +16,8 @@ INSERT INTO public.categories (id,name,created_at,created_by,updated_at,updated_
 	 ('2bdfe4b8-58bc-4d2a-9017-5d4e6eb57c11','Tivi','2024-05-30 23:40:47.059','huevu2003','2024-05-30 23:40:47.059','huevu2003'),
 	 ('0597bbb2-5392-41e0-9995-110608c173b2','Máy tính bảng','2024-05-30 23:41:04.062','huevu2003','2024-05-30 23:41:04.062','huevu2003');
 
-	 INSERT INTO public.products (id,category_id,title,price,discount,description,deleted,created_at,created_by,updated_at,updated_by,quantity) VALUES
-	 ('c17645cc-52b3-4c58-92bc-2ec21d51e30f','4f069335-669f-45dd-9ea1-fa2bc1202224','iPhone 15 128GB | Chính hãng VN/A',22990000,5.0,'Tại sao nên mua điện thoại iPhone 15 tại CellphoneS
+	 INSERT INTO public.products (id,category_id,title,origin_price,sale_price,discount,description,deleted,created_at,created_by,updated_at,updated_by,quantity) VALUES
+	 ('PRODUCT-1','4f069335-669f-45dd-9ea1-fa2bc1202224','iPhone 15 128GB | Chính hãng VN/A',22990000,0,5.0,'Tại sao nên mua điện thoại iPhone 15 tại CellphoneS
 Là một trong những hệ thống bán lẻ lớn nhất tại Việt Nam do đó có nhiều lý do để khách hàng chọn mua điện thoại iPhone 15 mới nhất tại hệ thống như:
 
 Sản phẩm chính hãng với chất lượng được đảm bảo: CellphoneS là một trong số ít những chuỗi bán lẻ chính hãng Apple tại Việt Nam sở hữu chuỗi trung tâm bảo hành chính hãng uỷ quyền Apple - CARES.vn. Nhờ đó, khi khách hàng mua hàng tại CellphoneS có thể  hoàn toàn yên tâm với chính sách bảo hành đổi mới 30 ngày đầu khi có lỗi từ nhà sản xuất, bảo hành 12 tháng tiện lợi, nhanh chóng tại các trung tâm bảo hành CARES.vn.
@@ -82,7 +82,7 @@ iPhone 15 128GB sẽ được trang bị bảo mật qua gương mặt FaceID th
 
 Cá nhân hóa giao diện với iOS 17
 Với hệ điều hành iOS 17 mới, người dùng có thể tùy chỉnh màn hình khóa theo phong cách cá nhân. Cùng với đó là nhiều tính năng thông minh được nâng cấp như vuốt để trả lời, tìm kiếm nhanh qua bộ lọc hay kiểm tra an toàn.',false,'2024-05-30 23:45:06.237','huevu2003','2024-05-30 23:45:06.237','huevu2003',178),
-	 ('22e3a64b-70aa-40ea-b96e-6bc01da9847a','e6ea8104-1d7b-4bfe-b2ae-f5a85d6236d7','Samsung Galaxy S24 8GB 256GB',22990000,10.0,'Vì sao nên mua Samsung S24 256GB (S24 thường)?
+	 ('PRODUCT-2','e6ea8104-1d7b-4bfe-b2ae-f5a85d6236d7','Samsung Galaxy S24 8GB 256GB',22990000,0,10.0,'Vì sao nên mua Samsung S24 256GB (S24 thường)?
 Điện thoại Samsung Galaxy S24 256GB có gì nổi bật đáng để người dùng nâng cấp và trải nghiệm. Nếu đang quan tâm đến sản phẩm này nhưng còn phân vân việc có nên nâng cấp trải nghiệm thì xem ngay một số điểm nổi bật trên sản phẩm đáng để trải nghiệm sau đây:
 
 -   Trợ lý thông minh AI: Tự động dịch các hội thoại trong quá trình trò chuyện, dịch tin nhắn hay ghi âm và chuyển đổi cuộc gọi thành văn bản cùng với khả năng chỉnh sửa ảnh thông minh.
@@ -145,7 +145,7 @@ Không chỉ hỗ trợ chụp ảnh, điện thoại Galaxy S24 còn được t
 
 Samsung Galaxy S24 256GB bao giờ ra mắt?
 Như nhiều thế hệ Samsung S khác, S24 cũng được Samsung giới thiệu vào quý 1 hàng năm. Cụ thể, Samsung Galaxy S24 thường (256GB) đã được Samsung giới thiệu cùng với S24 Plus và S24 Ultra vào sự kiện Galaxy Unpacked 2024 diễn ra vào khuya 17/1/2024 vừa qua, rạng sáng ngày 18/01/2024 (theo giờ Việt Nam) tại trung tâm SAP, San Jose (Mỹ).',false,'2024-05-31 00:11:02.011','huevu2003','2024-05-31 00:11:02.011','huevu2003',67),
-	 ('ba08df6a-2d3b-4e46-a110-2a1e502a697d','4f069335-669f-45dd-9ea1-fa2bc1202224','iPhone 14 Plus 128GB | Chính hãng VN/A',24990000,6.0,'Đánh giá iPhone 14 Plus - Siêu phẩm khẳng định đẳng cấp
+	 ('PRODUCT-3','4f069335-669f-45dd-9ea1-fa2bc1202224','iPhone 14 Plus 128GB | Chính hãng VN/A',24990000,0,6.0,'Đánh giá iPhone 14 Plus - Siêu phẩm khẳng định đẳng cấp
 Ngoài ba phiên bản gồm iPhone 14 thường, bản Pro và Pro Max, năm nay Apple dự kiến sẽ cho ra thêm một phiên bản mới mang tên iPhone 14 Plus. Mặc dù điện thoại iPhone 15 Plus vừa ra măt, nhưng nhờ được tích hợp nhiều cải tiến nổi trội về phần cứng, iPhone 14 Plus vẫn sẽ là siêu phẩm khẳng định đẳng cấp smartphone hiện đại.
 
 Thiết kế sang trọng, kích thước lớn hơn
@@ -217,7 +217,7 @@ Sạc không dây Qi
 Sạc không dây Magsafe
 Kết nối điện thoại vệ tinh, phát hiện sự cố khẩn cấp
 Với tính năng mới này, người dùng hoàn toàn có thể kết nối ngay với các mạng vệ tinh để nhắn tin trong trường hợp khẩn cấp (không kết nối được mạng di động, Wifi). Như vậy, iPhone 14 Plus hỗ trợ hướng dẫn bạn đến gần với mạng lưới vệ tinh. Lúc này, khi gửi thông tin qua mạng lưới vệ tinh, tin nhắn sẽ hiển thị màu xám.',false,'2024-05-30 23:54:38.841','huevu2003','2024-05-30 23:54:38.841','huevu2003',123),
-	 ('8c5e3179-0fea-4b07-81c6-8615a58ec035','e6ea8104-1d7b-4bfe-b2ae-f5a85d6236d7','Samsung Galaxy S24 Ultra 12GB 256GB',33990000,8.0,'Vì sao nên mua Samsung Galaxy S24 Ultra?
+	 ('PRODUCT-4','e6ea8104-1d7b-4bfe-b2ae-f5a85d6236d7','Samsung Galaxy S24 Ultra 12GB 256GB',33990000,0,8.0,'Vì sao nên mua Samsung Galaxy S24 Ultra?
 Đầu năm 2024, Samsung cho ra mắt Samsung S24 Ultra – Flagship dẫn đầu xu hướng với công nghệ AI tích hợp cùng nhiều tính năng và ưu điểm vượt trội khác. Các tính năng AI nổi bật trên điện thoại Samsung mới nhất bao gồm:
 
 - Galaxy AI với các tính năng Khoanh tròn để tìm kiếm, Photo Assist, Live Translate, Note Assist.
@@ -279,7 +279,7 @@ AI phone đầu tiên của Samsung, mang đến trải nghiệm mới lạ và 
 - Trợ lý chỉnh ảnh chuyên nghiệp: Sử dụng các tuỳ chọn chỉnh sửa AI mới để bức ảnh hoàn hảo hơn như lấp đầy chỗ trống, di chuyển đối tượng,...
 
 - Trợ lý quyền năng Note Assist: Giúp tóm tắt được ý chính  trong tích tắc với đoạn văn bản bạn note vào',false,'2024-05-30 23:58:03.124','huevu2003','2024-05-30 23:58:03.124','huevu2003',67),
-	 ('6de83910-1b2e-450e-9dbf-1c6e2694f21c','64a0ea8f-71aa-46ec-8832-16841a14eab8','Củ sạc Ugreen Type C PD 20W Mini CD241',190000.0,0.0,'Củ sạc nhanh Ugreen Type C PD 20W CD241 Mini - Công suất ổn định
+	 ('PRODUCT-5','64a0ea8f-71aa-46ec-8832-16841a14eab8','Củ sạc Ugreen Type C PD 20W Mini CD241',190000.0,0,0.0,'Củ sạc nhanh Ugreen Type C PD 20W CD241 Mini - Công suất ổn định
 Củ sạc nhanh Ugreen Type C PD 20W CD241 Mini có ngoại hình tổng thể đúng như tên gọi, với kích thước rất nhỏ gọn, đem lại sự linh hoạt trong quá trình sử dụng hằng ngày. Nếu bạn quan tâm tới sản phẩm sạc nhanh này, thì hãy tham khảo phần nội dung phía dưới đây nhé.
 
 Thiết kế nhỏ gọn
@@ -298,7 +298,7 @@ Sản phẩm tương thích với nhiều dòng điện thoại, tablet khác nh
 
 Mua ngay củ sạc nhanh Ugreen Type C PD 20W CD241 Mini chính hãng tại CellphoneS
 Như vậy, nếu bạn muốn cung cấp năng lượng cho smartphone một cách nhanh chóng, hiệu quả, đảm bảo độ an toàn cao thì nên mua ngay củ sạc nhanh Ugreen Type C PD 20W CD241 Mini tại cửa hàng CellphoneS để nhận được giá thành phải chăng nhất nhé.',false,'2024-05-30 23:59:33.971','huevu2003','2024-05-30 23:59:33.971','huevu2003',145),
-	 ('73e7c2e8-360c-4821-9693-0595650ce401','64a0ea8f-71aa-46ec-8832-16841a14eab8','Củ sạc Anker Powerport III Nano 20W A2633',370000.0,0.0,'Sạc Anker PowerPort III Nano PD 20W A2633 - Công nghệ sạc nhanh với công xuất 20W mạnh mẽ
+	 ('PRODUCT-6','64a0ea8f-71aa-46ec-8832-16841a14eab8','Củ sạc Anker Powerport III Nano 20W A2633',370000.0,0,0.0,'Sạc Anker PowerPort III Nano PD 20W A2633 - Công nghệ sạc nhanh với công xuất 20W mạnh mẽ
 Bạn là người thường xuyên sử dụng các thiết bị điện tử cả ngày dài. Vấn đề mà bạn đang gặp phải là tình trạng hay hết pin nhưng khi sạc thời gian rất lâu. Vì vậy hàng sản xuất Anker đã cho ra đời sản phẩm sạc Anker PowerPort III Nano PD 20W A2633 phù hợp nhu cầu của bạn.
 
 Thiết kế thời trang, trọng lượng nhẹ
@@ -339,7 +339,7 @@ Mua sạc Anker PowerPort III Nano PD 20W A2633 chính hãng, giá rẻ tại Ce
 Sạc Anker PowerPort III Nano PD 20W A2633 trắng với thiết kế nhỏ gọn, kèm theo đó là công suất rất cao, nhiều công nghệ điện áp an toàn. Đây sẽ là một sản phẩm phù hợp cho mọi thiết bị của bạn.
 
 Còn ngần ngại gì mà không nhanh tay sở hữu cho mình củ sạc Anker PowerPort III Nano PD 20W A2633 trắng với nhiều ưu điểm như vậy. Hãy đến ngay công ty để mua ngay và có thể trải nghiệm ngay nhé.',false,'2024-05-31 00:01:12.084','huevu2003','2024-05-31 00:01:12.084','huevu2003',78),
-	 ('dbb95165-5f4e-4484-9ed6-9cc8a155f5d5','a679ca13-e4ba-4188-a80c-291583c81e46','Bàn phím Apple Magic Keyboard 2021 MK2A3 | Chính hãng Apple Việt Nam',1990000.0,8.0,'Bàn phím Apple Magic Keyboard 2021 – Thiết kế gọn nhẹ, tinh tế
+	 ('PRODUCT-7','a679ca13-e4ba-4188-a80c-291583c81e46','Bàn phím Apple Magic Keyboard 2021 MK2A3 | Chính hãng Apple Việt Nam',1990000.0,0,8.0,'Bàn phím Apple Magic Keyboard 2021 – Thiết kế gọn nhẹ, tinh tế
 Sản phẩm bàn phím Apple Magic Keyboard 2021 MK2A3 đến từ thương hiệu chính hãng Apple, sở hữu thiết kế hiện đại, nhỏ gọn nhưng vẫn được cung cấp đầy đủ các phím chức năng phổ biến. Hãy cùng CellphoneS tìm hiểu rõ hơn về chất lượng của bàn phím này nhé!
 
 Trọng lượng nhẹ chỉ 0.239kg, chất liệu cao cấp
@@ -355,7 +355,7 @@ Bàn phím Apple Magic Keyboard 2021 MK2A3 được người dùng trải nghi�
 Bàn phím Apple Magic Keyboard 2021
 
 Tuy có thiết kế bàn phím không số, nhưng bàn phím Apple Magic Keyboard 2021 MK2A3 vẫn được trang bị đầy đủ các phím tắt với các chức năng cần thiết, giúp dễ dàng thao tác cùng khả năng không gây ồn khi gõ rất phù hợp với các không gian làm việc cần sự yên tĩnh và tập trung cao độ.',false,'2024-05-31 00:18:09.969','huevu2003','2024-05-31 00:18:09.969','huevu2003',56),
-	 ('cab3db6c-27aa-4cd0-a84c-86afdafd0bfd','a679ca13-e4ba-4188-a80c-291583c81e46','Hub Ugreen USB-C to 2 x USB-A 2.0 + USB-A 3.0 + HDMI + PD hỗ trợ 4K (15495)',416000.0,5.0,'Hub chuyển đổi Ugreen USB-C to 2 USB-A 2.0+ USB-A 3.0+HDMI+PD hỗ trợ 4K 15495 tích hợp cổng HDMI 4K, USB 3.0 5Gbps, USB-C PD 100W và USB 5.0 480Mbps. Thiết bị hub chuyển đổi Ugreen này có thiết kế nhỏ gọn, tông xám sang trọng trên lớp vỏ nhôm bền bỉ. Đặc biệt, Hub có thể tương thích với các dòng MacBook Pro, Air, M1, M2, iPad, ThinkPad, Galaxy S23,.. 
+	 ('PRODUCT-8','a679ca13-e4ba-4188-a80c-291583c81e46','Hub Ugreen USB-C to 2 x USB-A 2.0 + USB-A 3.0 + HDMI + PD hỗ trợ 4K (15495)',416000.0,0,5.0,'Hub chuyển đổi Ugreen USB-C to 2 USB-A 2.0+ USB-A 3.0+HDMI+PD hỗ trợ 4K 15495 tích hợp cổng HDMI 4K, USB 3.0 5Gbps, USB-C PD 100W và USB 5.0 480Mbps. Thiết bị hub chuyển đổi Ugreen này có thiết kế nhỏ gọn, tông xám sang trọng trên lớp vỏ nhôm bền bỉ. Đặc biệt, Hub có thể tương thích với các dòng MacBook Pro, Air, M1, M2, iPad, ThinkPad, Galaxy S23,.. 
 
 Hub chuyển đổi Ugreen 15495 - Kết nối hoàn hảo, dễ dàng chia sẻ nội dung
 Hub chuyển đổi Ugreen USB-C to 2 USB-A 2.0+ USB-A 3.0+HDMI+PD hỗ trợ 4K (15495) là thiết bị cần thiết cho người dùng trong quá trình chuyển đổi dữ liệu hiệu quả với nhiều phương thức kết nối. Hub còn có kiểu dáng nhỏ gọn hứa hẹn sẽ đồng hành cùng bạn trong suốt quá trình làm việc tốt hơn.
@@ -376,7 +376,7 @@ Hub được làm hoàn toàn từ lớp vỏ nhôm bền chắc và được gi
 
 Mua Hub chuyển đổi Ugreen USB-C to 2 USB-A 2.0+ USB-A 3.0+HDMI+PD hỗ trợ 4K (15495) giá rẻ ở CellphoneS
 Với tốc độ truyền tải cao và mở rộng khả năng kết nối, Hub chuyển đổi Ugreen USB-C to 2*USB-A 2.0+ USB-A 3.0+HDMI+PD hỗ trợ 4K (15495) hứa hẹn sẽ hỗ trợ bạn thực hiện mọi công việc nhanh chóng. Vì thế, hãy ghé đến CellphoneS để mua ngay hub chuyển đổi chính hãng nhé!',false,'2024-05-31 00:02:42.859','huevu2003','2024-05-31 00:20:20.891','huevu2003',177),
-	 ('180a2cd6-25bd-4fb8-b852-ede52a2ba546','a7c785ed-53be-49be-b8b9-14b9fad5082f','Apple MacBook Air M1 256GB 2020 I Chính hãng Apple Việt Nam',22990000,12.0,'Macbook Air M1 2020 - Sang trọng, tinh tế, hiệu năng khủng
+	 ('PRODUCT-9','a7c785ed-53be-49be-b8b9-14b9fad5082f','Apple MacBook Air M1 256GB 2020 I Chính hãng Apple Việt Nam',22990000,0,12.0,'Macbook Air M1 2020 - Sang trọng, tinh tế, hiệu năng khủng
 Macbook Air M1 là dòng sản phẩm có thiết kế mỏng nhẹ, sang trọng và tinh tế cùng với đó là giá thành phải chăng nên MacBook Air đã thu hút được đông đảo người dùng yêu thích và lựa chọn. Đây cũng là một trong những phiên bản Macbook Air mới nhất mà khách hàng không thể bỏ qua khi đến với CellphoneS. Dưới đây là chi tiết về thiết kế, cấu hình của máy.
 
 Thiết kế tinh tế, chất liệu nhôm bền bỉ
@@ -417,7 +417,7 @@ MacBook Air M1 256GB 2020 kết nối dễ dàng với các thiết bị bằng 
 Thunderbolt 3 giúp kết nối dễ dàng, thời lượng pin ấn tượng
 
 Do sử dụng chip M1 rất ít tỏa nhiệt, nên máy rất tiết kiệm điện năng mang lại khả năng tối ưu pin và thời gian sử dụng. Bạn có thể thoải mái lướt web trong vòng 15 tiếng và 18 tiếng xem video mà không lo hết pin.',false,'2024-05-31 00:04:41.380','huevu2003','2024-05-31 07:48:21.450','huevu2003',53),
-	 ('bce39d5c-ddad-48f6-a668-fb25b0b61014','a7c785ed-53be-49be-b8b9-14b9fad5082f','Laptop Dell Inspiron 15 3520 YTC9K',13990000,15.0,'Laptop Dell Inspiron 15 3520 YTC9K sở hữu hiệu năng đột phá nhờ sở hữu thông số cấu hình khủng từ CPU Intel thế hệ 12 cùng RAM 8GB (mở rộng tối đa 16GB) và SSD 256GB. Chất lượng hình ảnh của dòng laptop này cũng vô cùng sắc nét với card đồ họa Intel Iris Xe Graphics kết hợp cùng màn hình Full HD 15.6 inch. Đặc biệt hơn, máy còn sở hữu viên pin lên tới 41Wh hỗ trợ sạc nhanh, nâng cấp trải nghiệm giải trí, công việc suốt ngày dài.
+	 ('PRODUCT-10','a7c785ed-53be-49be-b8b9-14b9fad5082f','Laptop Dell Inspiron 15 3520 YTC9K',13990000,0,15.0,'Laptop Dell Inspiron 15 3520 YTC9K sở hữu hiệu năng đột phá nhờ sở hữu thông số cấu hình khủng từ CPU Intel thế hệ 12 cùng RAM 8GB (mở rộng tối đa 16GB) và SSD 256GB. Chất lượng hình ảnh của dòng laptop này cũng vô cùng sắc nét với card đồ họa Intel Iris Xe Graphics kết hợp cùng màn hình Full HD 15.6 inch. Đặc biệt hơn, máy còn sở hữu viên pin lên tới 41Wh hỗ trợ sạc nhanh, nâng cấp trải nghiệm giải trí, công việc suốt ngày dài.
 
 Laptop Dell Inspiron 15 3520 YTC9K - Cấu hình đột phá, tạo hình nhỏ gọn, tinh tế
 Laptop Dell Inspiron 15 3520 YTC9K không chỉ là một chiếc laptop thông thường, nó là sự kết hợp hoàn hảo giữa hiệu suất và thiết kế đa năng. Thế hệ laptop Dell Inspiron mới này được tích hợp CPU Intel thế hệ 12 mạnh mẽ, màn hình Full HD chống chói và nhiều tùy chọn cấu hình, phục vụ tối ưu cho cả công việc lẫn học tập. Dưới này là một số các ưu điểm đột phá của Dell Inspiron 15 3520 YTC9K mà bạn có thể tham khảo thêm nhé!
@@ -459,8 +459,8 @@ Ngoài ra, với sự đa dạng của các cổng kết nối như USB 3.2, USB
 
 Mua ngay laptop Dell Inspiron 15 3520 YTC9K giá tốt tại CellphoneS
 Bạn đang băn khoăn khi chưa biết nên chọn mua laptop Dell Inspiron 15 3520 YTC9K chính hãng, giá rẻ? Nếu vậy thì điểm đến lý tưởng mà bạn rất nên ghé qua là cửa hàng công nghệ CellphoneS. Tại đây, bạn sẽ được tận hưởng chương trình thu cũ đổi mới hấp dẫn, ưu đãi trả góp 3 không lãi suất cùng những ưu đãi đặc biệt dành cho sinh viên và học sinh của cửa hàng. ',false,'2024-05-31 00:08:19.454','huevu2003','2024-05-31 07:48:26.477','huevu2003',78);
-INSERT INTO public.products (id,category_id,title,price,discount,description,deleted,created_at,created_by,updated_at,updated_by,quantity) VALUES
-	 ('a03cd832-3b6f-4b40-838d-a33aa0a96ed6','a7c785ed-53be-49be-b8b9-14b9fad5082f','Laptop ASUS TUF Gaming A15 FA506NF-HN005W',19990000,12.0,'Laptop Asus TUF gaming A15 FA506NF-HN005W là mẫu laptop gaming với con chip AMD Ryzen™ 5 7535HS xung nhịp tới 4.5Ghz cùng card đồ họa NVIDIA® GeForce RTX™ 2050. Laptop với màn hình IPS 15.6 inch cùng tần số quét 144Hz mượt mà. Asus A15 FA506NF-HN005W với RAM 8GB chuẩn DDR5 và ổ cứng SSD 512GB PCIe® 4.0 vượt trội.
+INSERT INTO public.products (id,category_id,title,origin_price,sale_price,discount,description,deleted,created_at,created_by,updated_at,updated_by,quantity) VALUES
+	 ('PRODUCT-11','a7c785ed-53be-49be-b8b9-14b9fad5082f','Laptop ASUS TUF Gaming A15 FA506NF-HN005W',19990000,0,12.0,'Laptop Asus TUF gaming A15 FA506NF-HN005W là mẫu laptop gaming với con chip AMD Ryzen™ 5 7535HS xung nhịp tới 4.5Ghz cùng card đồ họa NVIDIA® GeForce RTX™ 2050. Laptop với màn hình IPS 15.6 inch cùng tần số quét 144Hz mượt mà. Asus A15 FA506NF-HN005W với RAM 8GB chuẩn DDR5 và ổ cứng SSD 512GB PCIe® 4.0 vượt trội.
 
 Laptop Asus TUF gaming A15 FA506NF-HN005W – Hiệu năng vượt trội
 Laptop Asus TUF gaming A15 FA506NF-HN005W được trang bị một cấu hình mạnh đáp ứng tốt các nhu cầu sử dụng từ chơi game đến làm việc. Vậy chính xác cấu hình laptop Asus gaming này có gì, có đáng để mua hay không thì cùng tìm hiểu ngay sau đây.
@@ -508,7 +508,7 @@ Mua ngay laptop Asus TUF gaming A15 FA506NF-HN005W chính hãng tại CellphoneS
 Asus TUF gaming A15 FA506NF-HN005W là mẫu laptop gaming sở hữu một cấu hình vượt trội đáp ứng được nhiều nhu cầu sử dụng khác nhau của người dùng. Nếu quan tâm đến laptop Asus gaming chất lượng này, đến với CellphoneS để trải nghiệm và mua ngay với giá bán ưu đãi. Khi mua laptop tại CellphoneS, khách hàng sẽ có cơ hội mua trả góp với lãi suất 0% ấn tượng. Cùng với đó hệ thống còn nhiều chương trình ưu đãi học sinh – sinh viên hấp dẫn để khách hàng có thể sở hữu laptop chất lượng với giá bán siêu hời.',false,'2024-05-31 00:14:16.955','huevu2003','2024-11-05 23:59:50.482','huevu2003',62);
 
 INSERT INTO public.galeries (id,created_at,created_by,updated_at,updated_by,image,product_id) VALUES
-	 ('2034e411-fd5a-4335-9541-a6e10ab1324b','2024-05-31 00:12:04.718','huevu2003','2024-05-31 00:12:04.718','huevu2003','https://tmartbucket.s3.ap-southeast-1.amazonaws.com/1717089124186-samsung-galaxy-sliding-s24-th4.webp','22e3a64b-70aa-40ea-b96e-6bc01da9847a'),
-	 ('c23862b4-1f65-41b8-a3b7-015e5c057e4d','2024-05-31 00:14:34.381','huevu2003','2024-05-31 00:14:34.381','huevu2003','https://tmartbucket.s3.ap-southeast-1.amazonaws.com/1717089273831-Asus_sliding.2_new.webp','a03cd832-3b6f-4b40-838d-a33aa0a96ed6'),
-	 ('889d6afd-02fb-478e-b1dc-41b5a8da76ca','2024-05-31 00:16:04.380','huevu2003','2024-05-31 00:16:04.380','huevu2003','https://tmartbucket.s3.ap-southeast-1.amazonaws.com/1717089363824-iphone-15-pro-upgrader-stogage.webp','c17645cc-52b3-4c58-92bc-2ec21d51e30f');
+	 ('2034e411-fd5a-4335-9541-a6e10ab1324b','2024-05-31 00:12:04.718','huevu2003','2024-05-31 00:12:04.718','huevu2003','https://tmartbucket.s3.ap-southeast-1.amazonaws.com/1717089124186-samsung-galaxy-sliding-s24-th4.webp','PRODUCT-2'),
+	 ('c23862b4-1f65-41b8-a3b7-015e5c057e4d','2024-05-31 00:14:34.381','huevu2003','2024-05-31 00:14:34.381','huevu2003','https://tmartbucket.s3.ap-southeast-1.amazonaws.com/1717089273831-Asus_sliding.2_new.webp','PRODUCT-11'),
+	 ('889d6afd-02fb-478e-b1dc-41b5a8da76ca','2024-05-31 00:16:04.380','huevu2003','2024-05-31 00:16:04.380','huevu2003','https://tmartbucket.s3.ap-southeast-1.amazonaws.com/1717089363824-iphone-15-pro-upgrader-stogage.webp','PRODUCT-1');
 

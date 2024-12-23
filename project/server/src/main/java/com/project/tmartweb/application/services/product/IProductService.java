@@ -9,8 +9,8 @@ import com.project.tmartweb.domain.paginate.PaginationDTO;
 import java.util.UUID;
 
 public interface IProductService
-        extends IBaseService<Product, ProductDTO, UUID>,
-        IBaseServiceMultiple<Product, ProductDTO, UUID> {
+        extends IBaseService<Product, ProductDTO, String>,
+        IBaseServiceMultiple<Product, ProductDTO, String> {
     PaginationDTO<Product> getAllProductsByCategory(UUID categoryId, Integer page, Integer perPage);
 
     PaginationDTO<Product> getAllDeleted(Integer page, Integer perPage);
@@ -25,7 +25,7 @@ public interface IProductService
 
     PaginationDTO<Product> getAllByFilter(
             String keyword, String title, String discount, String price,
-            UUID productId, UUID categoryId, boolean isStock,
+            String productId, UUID categoryId, boolean isStock,
             Integer page, Integer perPage
     );
 }

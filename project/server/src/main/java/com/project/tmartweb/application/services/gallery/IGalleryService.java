@@ -9,7 +9,7 @@ import java.util.UUID;
 
 public interface IGalleryService extends IBaseService<Gallery, GalleryDTO, UUID> {
 
-    Gallery insert(UUID productId, MultipartFile image);
+    Gallery insert(String productId, MultipartFile image);
 
-    Gallery update(UUID id, UUID productId, MultipartFile image);
+    Gallery update(UUID id, String productId, MultipartFile image);
 }

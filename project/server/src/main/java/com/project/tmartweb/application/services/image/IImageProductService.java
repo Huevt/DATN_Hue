@@ -7,9 +7,9 @@ import java.util.List;
 import java.util.UUID;
 
 public interface IImageProductService {
-    List<ImageProduct> getByProductId(UUID productId);
+    List<ImageProduct> getByProductId(String productId);
 
-    String uploadImages(UUID productId, List<MultipartFile> images);
+    String uploadImages(String productId, List<MultipartFile> images);
 
     void delete(UUID id);
 

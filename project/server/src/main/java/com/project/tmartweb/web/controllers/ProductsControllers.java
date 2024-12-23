@@ -53,7 +53,7 @@ public class ProductsControllers {
             @RequestParam(name = "price", required = false) String price,
             @RequestParam(name = "categoryId", required = false) UUID categoryId,
             @RequestParam(name = "isStock", required = false) boolean isStock,
-            @RequestParam(name = "productId", required = false) UUID productId
+            @RequestParam(name = "productId", required = false) String productId
     ) {
         var res = iProductService.getAllByFilter(
                 keyword, title, discount, price, productId,
@@ -71,7 +71,7 @@ public class ProductsControllers {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getProduct(@PathVariable UUID id) {
+    public ResponseEntity<?> getProduct(@PathVariable String id) {
         return ResponseEntity.ok(iProductService.getById(id));
     }
 
@@ -113,7 +113,7 @@ public class ProductsControllers {
     @PostMapping("/upload-image/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> uploadImage(
-            @PathVariable UUID id,
+            @PathVariable String id,
             @RequestPart("images") List<MultipartFile> files
     ) {
         String result = iImageProductService.uploadImages(id, files);
@@ -122,14 +122,14 @@ public class ProductsControllers {
 
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<?> updateProduct(@PathVariable UUID id, @RequestBody ProductDTO productDTO) {
+    public ResponseEntity<?> updateProduct(@PathVariable String id, @RequestBody ProductDTO productDTO) {
         var result = iProductService.update(id, productDTO);
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<?> deleteProduct(@PathVariable UUID id) {
+    public ResponseEntity<?> deleteProduct(@PathVariable String id) {
         Product product = iProductService.getById(id);
         iProductService.delete(product);
         return ResponseEntity.status(HttpStatus.OK).body("Delete success");

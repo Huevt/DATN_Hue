@@ -21,12 +21,12 @@ public class ImageProductService implements IImageProductService {
     private final IProductService productService;
 
     @Override
-    public List<ImageProduct> getByProductId(UUID productId) {
+    public List<ImageProduct> getByProductId(String productId) {
         return imageProductRepository.findByProductId(productId);
     }
 
     @Override
-    public String uploadImages(UUID productId, List<MultipartFile> images) {
+    public String uploadImages(String productId, List<MultipartFile> images) {
         Product product = productService.getById(productId);
         for (MultipartFile file : images) {
             String url = fileService.uploadFile(file);

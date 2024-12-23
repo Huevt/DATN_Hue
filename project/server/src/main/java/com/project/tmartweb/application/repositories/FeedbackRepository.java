@@ -16,11 +16,11 @@ public interface FeedbackRepository extends JpaRepository<Feedback, UUID> {
             "where f.product.id = :id and " +
             "(f.star = :star or :star is null)" +
             "order by f.createdAt desc")
-    Page<Feedback> findAllByProductId(UUID id, Pageable pageable, Integer star);
+    Page<Feedback> findAllByProductId(String id, Pageable pageable, Integer star);
 
     @Query("select f from Feedback f " +
             "where f.product.id = :id and " +
             "(f.star = :star or :star is null)" +
             "order by f.createdAt desc")
-    List<Feedback> findAllByProductId(UUID id, Integer star);
+    List<Feedback> findAllByProductId(String id, Integer star);
 }

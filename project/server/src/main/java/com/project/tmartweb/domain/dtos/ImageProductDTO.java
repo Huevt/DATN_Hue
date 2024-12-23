@@ -5,8 +5,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.UUID;
-
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -16,5 +14,5 @@ public class ImageProductDTO {
 
     private String url;
 
-    private UUID productId;
+    private String productId;
 }

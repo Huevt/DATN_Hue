@@ -59,11 +59,12 @@ public class GalleryService implements IGalleryService {
 
     @Override
     public Gallery getById(UUID id) {
-        return findById(id).orElseThrow(() -> new NotFoundException("Trưng bày này không tồn tại", "Gallery not found"));
+        return findById(id).orElseThrow(() -> new NotFoundException("Trưng bày này không tồn tại",
+                                                                    "Gallery not found"));
     }
 
     @Override
-    public Gallery insert(UUID productId, MultipartFile image) {
+    public Gallery insert(String productId, MultipartFile image) {
         Product product = productService.getById(productId);
         Gallery gallery = new Gallery();
         gallery.setProduct(product);
@@ -72,7 +73,7 @@ public class GalleryService implements IGalleryService {
     }
 
     @Override
-    public Gallery update(UUID id, UUID productId, MultipartFile image) {
+    public Gallery update(UUID id, String productId, MultipartFile image) {
         Product product = productService.getById(productId);
         Gallery gallery = getById(id);
         gallery.setProduct(product);
