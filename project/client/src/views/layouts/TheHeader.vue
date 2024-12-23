@@ -14,7 +14,7 @@
                     v-model:modelValue="searchValue"
                     placeholder="Tìm kiếm..."
                 />
-                <b-button value="Tìm kiếm" />
+                <b-button @click="handleSearch()" value="Tìm kiếm" />
             </div>
         </div>
         <div class="redirect">

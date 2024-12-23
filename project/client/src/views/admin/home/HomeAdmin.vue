@@ -21,20 +21,22 @@ onMounted(async () => {
             <ChartMoney />
             <div class="product-best-seller">
                 <h3>Sản phẩm bán chạy</h3>
-                <div
-                    v-for="item in productListBestSeller"
-                    :key="item?.id"
-                    class="detail-body-content"
-                >
-                    <div class="body-content-product detail-body-product">
-                        <img :src="item.imageProducts[0]?.url" alt="" />
-                        <div class="product-info">
-                            <p title="" class="product-name">
-                                {{ item?.title }}
-                            </p>
-                            <p class="product-sold">
-                                Đã bán: {{ item?.soldQuantity }}
-                            </p>
+                <div class="product-best-seller-body">
+                    <div
+                        v-for="item in productListBestSeller"
+                        :key="item?.id"
+                        class="detail-body-content"
+                    >
+                        <div class="body-content-product detail-body-product">
+                            <img :src="item.imageProducts[0]?.url" alt="" />
+                            <div class="product-info">
+                                <p title="" class="product-name">
+                                    {{ item?.title }}
+                                </p>
+                                <p class="product-sold">
+                                    Đã bán: {{ item?.soldQuantity }}
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </div>
