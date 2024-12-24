@@ -27,8 +27,8 @@
 
         </div>
         <div class="footer-center">
-            <a target="_blank" href="https://www.facebook.com/huydang2132"><i class="fa-brands fa-facebook"></i></a>
-            <a target="_blank" href="https://github.com/huydang2132"><i class="fa-brands fa-github"></i></a>
+            <a target="_blank" href="https://www.facebook.com/hue.bich.3760"><i class="fa-brands fa-facebook"></i></a>
+            <a target="_blank" href="https://github.com/Huevt/DATN_Hue"><i class="fa-brands fa-github"></i></a>
             <a target="_blank" class="insta" href="https://www.instagram.com/huy.dang_1304"><i
                     class="fa-brands fa-instagram"></i></a>
         </div>
