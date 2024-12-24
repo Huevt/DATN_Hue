@@ -22,7 +22,7 @@ public class VNPayService {
 
         System.out.println(vnp_IpAddr);
 
-        int amount = total;
+        int amount = total*100;
 
 //    int amount = Integer.parseInt(req.getParameter("amount")) * 100;
         Map<String, String> vnp_Params = new HashMap<>();

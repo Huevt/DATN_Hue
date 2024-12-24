@@ -151,7 +151,6 @@
                                 class="btn-cancel"
                                 @click="handleCancelOrder(item)"
                                 v-if="
-                                    item.status === 'PAID' ||
                                     item.status === 'UNPAID' ||
                                     item.status === 'PENDING'
                                 "
